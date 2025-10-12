@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Ship
+  - Asteroid
+  - UFO
+  - Bullet
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: BigAsteroid
+    uniqueID: 3977219705
+    locked: 0
+  - name: UFO
+    uniqueID: 1720198745
+    locked: 0
+  - name: Asteroid
+    uniqueID: 1918705455
+    locked: 0
+  - name: Ship
+    uniqueID: 1346653967
+    locked: 0
+  m_RenderingLayers:
+  - Default
