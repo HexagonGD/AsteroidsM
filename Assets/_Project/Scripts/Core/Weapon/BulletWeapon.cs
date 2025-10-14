@@ -47,7 +47,7 @@ namespace Asteroids.Core.Weapon.Implementation
                 bullet.Unit.Data = data;
                 bullet.ForceUpdateTransform();
                 _bullets.Add(bullet);
-                bullet.Unit.DeadEvent += OnBulletDead;
+                bullet.Unit.OnDied += OnBulletDead;
                 RemainingReloadTime = ReloadTime;
                 return true;
             }
@@ -66,7 +66,7 @@ namespace Asteroids.Core.Weapon.Implementation
         private void OnBulletDead(Unit unit)
         {
             var index = _bullets.FindIndex(x => x.Unit == unit);
-            _bullets[index].Unit.DeadEvent -= OnBulletDead;
+            _bullets[index].Unit.OnDied -= OnBulletDead;
             _bulletFactory.Release(_bullets[index]);
             _bullets.RemoveAt(index);
         }

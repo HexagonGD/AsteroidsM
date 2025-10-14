@@ -34,7 +34,7 @@ namespace Asteroids
             _shipSystem = new ShipSystem(_shipSystemConfig, playZone);
             _ufoSystem = new UFOSystem(_ufoSystemConfig, _shipSystem.ShipUnit, playZone, spawnPosition);
 
-            _shipSystem.ShipDeadEvent += OnShipDead;
+            _shipSystem.OnShipDied += OnShipDied;
             _startGameButton.onClick.AddListener(RunGame);
 
             RunGame();
@@ -62,10 +62,10 @@ namespace Asteroids
             _ufoSystem.Clear();
             _shipSystem.Clear();
 
-            _shipSystem.ShipDeadEvent += OnShipDead;
-            _asteroidSystem.SmallAsteroidDeadEvent += UpdateScore;
-            _asteroidSystem.BigAsteroidDeadEvent += UpdateScore;
-            _ufoSystem.UFODeadEvent += UpdateScore;
+            _shipSystem.OnShipDied += OnShipDied;
+            _asteroidSystem.OnSmallAsteroidDied += UpdateScore;
+            _asteroidSystem.OnBigAsteroidDied += UpdateScore;
+            _ufoSystem.OnUFODied += UpdateScore;
 
             _isGameRun = true;
         }
@@ -75,17 +75,17 @@ namespace Asteroids
             _gameScoreUI.UpdateScore(++_score);
         }
 
-        private void OnShipDead()
+        private void OnShipDied()
         {
             _finalScoreUI.UpdateScore(_score);
 
             _shipInfoUI.gameObject.SetActive(false);
             _finalScoreUI.gameObject.SetActive(true);
 
-            _shipSystem.ShipDeadEvent -= OnShipDead;
-            _asteroidSystem.SmallAsteroidDeadEvent -= UpdateScore;
-            _asteroidSystem.BigAsteroidDeadEvent -= UpdateScore;
-            _ufoSystem.UFODeadEvent -= UpdateScore;
+            _shipSystem.OnShipDied -= OnShipDied;
+            _asteroidSystem.OnSmallAsteroidDied -= UpdateScore;
+            _asteroidSystem.OnBigAsteroidDied -= UpdateScore;
+            _ufoSystem.OnUFODied -= UpdateScore;
 
             _score = 0;
 

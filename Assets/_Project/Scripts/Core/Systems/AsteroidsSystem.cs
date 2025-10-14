@@ -13,8 +13,8 @@ namespace Asteroids.Core
 {
     public class AsteroidsSystem
     {
-        public event Action BigAsteroidDeadEvent;
-        public event Action SmallAsteroidDeadEvent;
+        public event Action OnBigAsteroidDied;
+        public event Action OnSmallAsteroidDied;
 
         private CompositeFactory _smallAsteroidFactory;
         private CompositeFactory _bigAsteroidFactory;
@@ -34,7 +34,7 @@ namespace Asteroids.Core
             _spawnPosition = spawnPosition;
 
             _timer = new LoopTimer(config.TimeForSpawn, config.AccumulatedTime);
-            _timer.LoopEvent += SpawnBigAsteroid;
+            _timer.OnLoop += SpawnBigAsteroid;
 
             var linearMovement = new LinearMovement();
             var ignoreBorder = new IgnoreBorder();
@@ -67,9 +67,9 @@ namespace Asteroids.Core
             for (var i = _asteroids.Count - 1; i >= 0; i--)
                 _asteroids[i].Unit.Die(false);
 
-            _timer.LoopEvent -= SpawnBigAsteroid;
+            _timer.OnLoop -= SpawnBigAsteroid;
             _timer = new LoopTimer(_config.TimeForSpawn, _config.AccumulatedTime);
-            _timer.LoopEvent += SpawnBigAsteroid;
+            _timer.OnLoop += SpawnBigAsteroid;
         }
 
         private void SpawnBigAsteroid()
@@ -84,7 +84,7 @@ namespace Asteroids.Core
 
             data.Speed = (new Vector2(x, y) - data.Position).normalized * Random.Range(_config.BigAsteroidMinSpeed, _config.BigAsteroidMaxSpeed);
             asteroid.Unit.Data = data;
-            asteroid.Unit.DeadEvent += OnBigAsteroidDead;
+            asteroid.Unit.OnDied += BigAsteroidDiedHandler;
             _asteroids.Add(asteroid);
         }
 
@@ -98,27 +98,27 @@ namespace Asteroids.Core
                 data.Speed = Vector2.right.Vector2FromAngle(360f / _config.ChildrenFromBigAsteroid * i + deviationDegrees)
                               * unit.Data.Speed.magnitude * _config.SmallAsteroidParentSpeedCoef;
                 asteroid.Unit.Data = data;
-                asteroid.Unit.DeadEvent += OnSmallAsteroidDead;
+                asteroid.Unit.OnDied += SmallAsteroidDiedHandler;
                 _asteroids.Add(asteroid);
             }
         }
 
-        private void OnBigAsteroidDead(Unit unit)
+        private void BigAsteroidDiedHandler(Unit unit)
         {
             var index = _asteroids.FindIndex(x => x.Unit == unit);
-            _asteroids[index].Unit.DeadEvent -= OnBigAsteroidDead;
+            _asteroids[index].Unit.OnDied -= BigAsteroidDiedHandler;
             _bigAsteroidFactory.Release(_asteroids[index]);
             _asteroids.RemoveAt(index);
-            BigAsteroidDeadEvent?.Invoke();
+            OnBigAsteroidDied?.Invoke();
         }
 
-        private void OnSmallAsteroidDead(Unit unit)
+        private void SmallAsteroidDiedHandler(Unit unit)
         {
             var index = _asteroids.FindIndex(x => x.Unit == unit);
-            _asteroids[index].Unit.DeadEvent -= OnSmallAsteroidDead;
+            _asteroids[index].Unit.OnDied -= SmallAsteroidDiedHandler;
             _smallAsteroidFactory.Release(_asteroids[index]);
             _asteroids.RemoveAt(index);
-            SmallAsteroidDeadEvent?.Invoke();
+            OnSmallAsteroidDied?.Invoke();
         }
 
         [Serializable]

@@ -4,7 +4,7 @@ namespace Asteroids.Timers.Implementation
 {
     public class LoopTimer
     {
-        public event Action LoopEvent;
+        public event Action OnLoop;
 
         public float LoopTime { get; private set; }
         public float AccumulatedTime { get; private set; }
@@ -22,7 +22,7 @@ namespace Asteroids.Timers.Implementation
             while (AccumulatedTime >= LoopTime)
             {
                 AccumulatedTime -= LoopTime;
-                LoopEvent?.Invoke();
+                OnLoop?.Invoke();
             }
         }
     }

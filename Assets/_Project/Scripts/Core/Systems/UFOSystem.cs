@@ -12,7 +12,7 @@ namespace Asteroids.Core
 {
     public class UFOSystem
     {
-        public event Action UFODeadEvent;
+        public event Action OnUFODied;
 
         private CompositeFactory _ufoFactory;
 
@@ -30,7 +30,7 @@ namespace Asteroids.Core
             _spawnPosition = spawnPosition;
 
             _timer = new LoopTimer(config.TimeForSpawn, config.AccumulatedTime);
-            _timer.LoopEvent += SpawnUFO;
+            _timer.OnLoop += SpawnUFO;
 
             var linearMovement = new MoveToTarget(target, _config._movementConfig);
             var ignoreBorder = new IgnoreBorder();
@@ -56,9 +56,9 @@ namespace Asteroids.Core
             for (var i = _ufo.Count - 1; i >= 0; i--)
                 _ufo[i].Unit.Die(false);
 
-            _timer.LoopEvent -= SpawnUFO;
+            _timer.OnLoop -= SpawnUFO;
             _timer = new LoopTimer(_config.TimeForSpawn, _config.AccumulatedTime);
-            _timer.LoopEvent += SpawnUFO;
+            _timer.OnLoop += SpawnUFO;
         }
 
         private void SpawnUFO()
@@ -67,17 +67,17 @@ namespace Asteroids.Core
             var data = new TransformData();
             data.Position = _spawnPosition.GetSpawnPosition(_playZone);
             ufo.Unit.Data = data;
-            ufo.Unit.DeadEvent += OnUFODead;
+            ufo.Unit.OnDied += OnUFODead;
             _ufo.Add(ufo);
         }
 
         private void OnUFODead(Unit unit)
         {
             var index = _ufo.FindIndex(x => x.Unit == unit);
-            _ufo[index].Unit.DeadEvent -= OnUFODead;
+            _ufo[index].Unit.OnDied -= OnUFODead;
             _ufoFactory.Release(_ufo[index]);
             _ufo.RemoveAt(index);
-            UFODeadEvent?.Invoke();
+            OnUFODied?.Invoke();
         }
 
         [Serializable]

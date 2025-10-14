@@ -12,7 +12,7 @@ namespace Asteroids.Core
 {
     public class ShipSystem
     {
-        public event Action ShipDeadEvent;
+        public event Action OnShipDied;
 
         private Arsenal _arsenal;
         private CompositeFactory _shipFactory;
@@ -70,7 +70,7 @@ namespace Asteroids.Core
 
         private void OnShipDead(Unit unit)
         {
-            ShipDeadEvent?.Invoke();
+            OnShipDied?.Invoke();
         }
 
         [Serializable]

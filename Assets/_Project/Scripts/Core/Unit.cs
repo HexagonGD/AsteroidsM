@@ -7,7 +7,7 @@ namespace Asteroids.Core
 {
     public class Unit
     {
-        public event Action<Unit> DeadEvent;
+        public event Action<Unit> OnDied;
 
         public TransformData Data { get; set; }
 
@@ -33,7 +33,7 @@ namespace Asteroids.Core
         {
             if (withEffect)
                 _dieEffect.Die(this);
-            DeadEvent?.Invoke(this);
+            OnDied?.Invoke(this);
         }
     }
 }
