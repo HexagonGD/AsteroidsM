@@ -1,9 +1,5 @@
-using Asteroids.Core.BorderHandler.Implementation;
-using Asteroids.Core.DieEffects.Implementation;
-using Asteroids.Core.Movement.Implementation;
 using Asteroids.Factory.Implementation;
 using Asteroids.Timers.Implementation;
-using Asteroids.View;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,23 +19,15 @@ namespace Asteroids.Core
 
         private List<CompositeUnit> _ufo = new();
 
-        public UFOSystem(Config config, Unit target, PlayZone playZone, SpawnOutsideGameZone spawnPosition)
+        public UFOSystem(CompositeFactory ufoFactory, Config config, Unit target, PlayZone playZone, SpawnOutsideGameZone spawnPosition)
         {
+            _ufoFactory = ufoFactory;
             _config = config;
             _playZone = playZone;
             _spawnPosition = spawnPosition;
 
             _timer = new LoopTimer(config.TimeForSpawn, config.AccumulatedTime);
             _timer.OnLoop += SpawnUFO;
-
-            var linearMovement = new MoveToTarget(target, _config._movementConfig);
-            var ignoreBorder = new IgnoreBorder();
-            var withoutEffect = new WithoutDieEffect();
-
-            var ufoUnitFactory = new UnitFactory(linearMovement, ignoreBorder, withoutEffect);
-            var ufoUnitViewFactory = new UnitViewFactory(_config.UFOPrefab);
-
-            _ufoFactory = new CompositeFactory(ufoUnitFactory, ufoUnitViewFactory);
         }
 
         public void Update(float deltaTime)
@@ -71,13 +59,15 @@ namespace Asteroids.Core
             _ufo.Add(ufo);
         }
 
-        private void OnUFODead(Unit unit)
+        private void OnUFODead(Unit unit, bool real)
         {
             var index = _ufo.FindIndex(x => x.Unit == unit);
             _ufo[index].Unit.OnDied -= OnUFODead;
             _ufoFactory.Release(_ufo[index]);
             _ufo.RemoveAt(index);
-            OnUFODied?.Invoke();
+
+            if (real)
+                OnUFODied?.Invoke();
         }
 
         [Serializable]
@@ -85,9 +75,6 @@ namespace Asteroids.Core
         {
             [Min(0)] public float TimeForSpawn;
             public float AccumulatedTime;
-
-            public UnitView UFOPrefab;
-            public MoveToTarget.Config _movementConfig;
         }
     }
 }

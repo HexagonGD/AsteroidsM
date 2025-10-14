@@ -63,7 +63,7 @@ namespace Asteroids.Core.Weapon.Implementation
             }
         }
 
-        private void OnBulletDead(Unit unit)
+        private void OnBulletDead(Unit unit, bool real)
         {
             var index = _bullets.FindIndex(x => x.Unit == unit);
             _bullets[index].Unit.OnDied -= OnBulletDead;

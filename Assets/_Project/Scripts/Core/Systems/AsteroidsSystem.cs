@@ -1,12 +1,9 @@
-using Asteroids.Core.BorderHandler.Implementation;
-using Asteroids.Core.DieEffects.Implementation;
-using Asteroids.Core.Movement.Implementation;
 using Asteroids.Factory.Implementation;
 using Asteroids.Timers.Implementation;
-using Asteroids.View;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Asteroids.Core
@@ -27,7 +24,8 @@ namespace Asteroids.Core
 
         private List<CompositeUnit> _asteroids = new();
 
-        public AsteroidsSystem(Config config, PlayZone playZone, SpawnOutsideGameZone spawnPosition)
+        public AsteroidsSystem([Inject(Id = "small")] CompositeFactory smallAsteroidFactory, [Inject(Id = "big")] CompositeFactory bigAsteroidFactory,
+                                Config config, PlayZone playZone, SpawnOutsideGameZone spawnPosition)
         {
             _config = config;
             _playZone = playZone;
@@ -36,19 +34,8 @@ namespace Asteroids.Core
             _timer = new LoopTimer(config.TimeForSpawn, config.AccumulatedTime);
             _timer.OnLoop += SpawnBigAsteroid;
 
-            var linearMovement = new LinearMovement();
-            var ignoreBorder = new IgnoreBorder();
-            var spawnChildrenEffect = new InvokeActionDieEffect(SpawnSmallAsteroids);
-            var withoutEffect = new WithoutDieEffect();
-
-            var smallAsteroidUnitFactory = new UnitFactory(linearMovement, ignoreBorder, withoutEffect);
-            var bigAsteroidUnitFactory = new UnitFactory(linearMovement, ignoreBorder, spawnChildrenEffect);
-
-            var smallAsteroidViewFactory = new UnitViewFactory(config._smallAsteroidPrefab);
-            var biglAsteroidViewFactory = new UnitViewFactory(config._bigAsteroidPrefab);
-
-            _smallAsteroidFactory = new CompositeFactory(smallAsteroidUnitFactory, smallAsteroidViewFactory);
-            _bigAsteroidFactory = new CompositeFactory(bigAsteroidUnitFactory, biglAsteroidViewFactory);
+            _smallAsteroidFactory = smallAsteroidFactory;
+            _bigAsteroidFactory = bigAsteroidFactory;
         }
 
         public void Update(float deltaTime)
@@ -103,16 +90,21 @@ namespace Asteroids.Core
             }
         }
 
-        private void BigAsteroidDiedHandler(Unit unit)
+        private void BigAsteroidDiedHandler(Unit unit, bool real)
         {
             var index = _asteroids.FindIndex(x => x.Unit == unit);
             _asteroids[index].Unit.OnDied -= BigAsteroidDiedHandler;
             _bigAsteroidFactory.Release(_asteroids[index]);
             _asteroids.RemoveAt(index);
-            OnBigAsteroidDied?.Invoke();
+
+            if (real)
+            {
+                SpawnSmallAsteroids(unit);
+                OnBigAsteroidDied?.Invoke();
+            }
         }
 
-        private void SmallAsteroidDiedHandler(Unit unit)
+        private void SmallAsteroidDiedHandler(Unit unit, bool real)
         {
             var index = _asteroids.FindIndex(x => x.Unit == unit);
             _asteroids[index].Unit.OnDied -= SmallAsteroidDiedHandler;
@@ -128,13 +120,11 @@ namespace Asteroids.Core
             public float AccumulatedTime;
 
             [Header("Big Asteroid")]
-            public UnitView _bigAsteroidPrefab;
             public float BigAsteroidMinSpeed;
             public float BigAsteroidMaxSpeed;
             public float ChildrenFromBigAsteroid;
 
             [Header("Small Asteroid")]
-            public UnitView _smallAsteroidPrefab;
             public float DeviationDegrees;
             public float SmallAsteroidParentSpeedCoef;
         }

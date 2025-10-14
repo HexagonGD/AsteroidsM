@@ -1,5 +1,4 @@
 using Asteroids.Core.BorderHandler.Interface;
-using Asteroids.Core.DieEffects.Interface;
 using Asteroids.Core.Movement.Interface;
 using System;
 
@@ -7,20 +6,18 @@ namespace Asteroids.Core
 {
     public class Unit
     {
-        public event Action<Unit> OnDied;
+        public event Action<Unit, bool> OnDied;
 
         public TransformData Data { get; set; }
 
         private readonly IMovement _movement;
         private IBorderHandler _borderHandler;
-        private IDieEffect _dieEffect;
 
-        public Unit(IMovement movement, IBorderHandler borderHandler, IDieEffect dieEffect, TransformData data = default)
+        public Unit(IMovement movement, IBorderHandler borderHandler, TransformData data = default)
         {
             Data = data;
             _movement = movement;
             _borderHandler = borderHandler;
-            _dieEffect = dieEffect;
         }
 
         public void Update(float deltaTime)
@@ -29,11 +26,9 @@ namespace Asteroids.Core
             Data = _borderHandler.Update(Data);
         }
 
-        public void Die(bool withEffect = true)
+        public void Die(bool real = true)
         {
-            if (withEffect)
-                _dieEffect.Die(this);
-            OnDied?.Invoke(this);
+            OnDied?.Invoke(this, real);
         }
     }
 }

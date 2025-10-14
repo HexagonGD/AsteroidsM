@@ -1,6 +1,8 @@
 using Asteroids.Core;
+using Asteroids.Core.Weapon.Implementation;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace Asteroids.UI
 {
@@ -11,12 +13,22 @@ namespace Asteroids.UI
         [SerializeField] private TMP_Text _chargesTMP;
         [SerializeField] private TMP_Text _reloadTMP;
 
-        public void UpdateInfo(ShipSystem shipSystem)
+        private Unit _ship;
+        private LazerWeapon _lazerWeapon;
+
+        [Inject]
+        public void Construct(Unit ship, LazerWeapon lazerWeapon)
         {
-            _positionTMP.text = $"Position: {shipSystem.ShipUnit.Data.Position.x:0.00} {shipSystem.ShipUnit.Data.Position.y:0.00}";
-            _rotationTMP.text = $"Rotation: {shipSystem.ShipUnit.Data.Rotation:0.00}";
-            _chargesTMP.text = $"Charges: {shipSystem.LazerCharges}";
-            _reloadTMP.text = $"Reload: {shipSystem.LazerRemainingTime:0.00}";
+            _ship = ship;
+            _lazerWeapon = lazerWeapon;
+        }
+
+        private void Update()
+        {
+            _positionTMP.text = $"Position: {_ship.Data.Position.x:0.00} {_ship.Data.Position.y:0.00}";
+            _rotationTMP.text = $"Rotation: {_ship.Data.Rotation:0.00}";
+            _chargesTMP.text = $"Charges: {_lazerWeapon.Charges}";
+            _reloadTMP.text = $"Reload: {_lazerWeapon.RemainingTimeForCharge:0.00}";
         }
     }
 }

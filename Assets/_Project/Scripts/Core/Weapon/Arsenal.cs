@@ -1,4 +1,5 @@
 using Asteroids.Core.Weapon.Interface;
+using Zenject;
 
 namespace Asteroids.Core.Weapon
 {
@@ -9,7 +10,8 @@ namespace Asteroids.Core.Weapon
 
         private WASD _input;
 
-        public Arsenal(IWeapon firstWeapon, IWeapon secondWeapon)
+        public Arsenal([Inject(Id = "first")] IWeapon firstWeapon,
+                       [Inject(Id = "second")] IWeapon secondWeapon)
         {
             _firstWeapon = firstWeapon;
             _secondWeapon = secondWeapon;
