@@ -71,6 +71,7 @@ namespace Asteroids.Core
 
             data.Speed = (new Vector2(x, y) - data.Position).normalized * Random.Range(_config.BigAsteroidMinSpeed, _config.BigAsteroidMaxSpeed);
             asteroid.Unit.Data = data;
+            asteroid.ForceUpdateTransform();
             asteroid.Unit.OnDied += BigAsteroidDiedHandler;
             _asteroids.Add(asteroid);
         }
@@ -85,6 +86,7 @@ namespace Asteroids.Core
                 data.Speed = Vector2.right.Vector2FromAngle(360f / _config.ChildrenFromBigAsteroid * i + deviationDegrees)
                               * unit.Data.Speed.magnitude * _config.SmallAsteroidParentSpeedCoef;
                 asteroid.Unit.Data = data;
+                asteroid.ForceUpdateTransform();
                 asteroid.Unit.OnDied += SmallAsteroidDiedHandler;
                 _asteroids.Add(asteroid);
             }
@@ -110,7 +112,11 @@ namespace Asteroids.Core
             _asteroids[index].Unit.OnDied -= SmallAsteroidDiedHandler;
             _smallAsteroidFactory.Release(_asteroids[index]);
             _asteroids.RemoveAt(index);
-            OnSmallAsteroidDied?.Invoke();
+
+            if (real)
+            {
+                OnSmallAsteroidDied?.Invoke();
+            }
         }
 
         [Serializable]

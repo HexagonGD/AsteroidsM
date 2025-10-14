@@ -3,6 +3,7 @@ using Asteroids.Timers.Implementation;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject.Asteroids;
 
 namespace Asteroids.Core
 {
@@ -55,6 +56,7 @@ namespace Asteroids.Core
             var data = new TransformData();
             data.Position = _spawnPosition.GetSpawnPosition(_playZone);
             ufo.Unit.Data = data;
+            ufo.ForceUpdateTransform();
             ufo.Unit.OnDied += OnUFODead;
             _ufo.Add(ufo);
         }

@@ -13,6 +13,8 @@ using Asteroids.FSMachine;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using Asteroids.UI.Core;
+using Asteroids.UI.Implementation;
 
 namespace Asteroids
 {
@@ -30,10 +32,8 @@ namespace Asteroids
         [SerializeField] private LazerRenderer.Config _lazerRendererConfig;
 
         [Header("UI")]
-        [SerializeField] private ScoreUI _gameScoreUI;
-        [SerializeField] private ScoreUI _finalScoreUI;
-        [SerializeField] private ShipInfoUI _shipInfoUI;
-        [SerializeField] private Button _startGameButton;
+        [SerializeField] private DebugView _debugView;
+        [SerializeField] private FinalScoreView _finalScoreView;
 
         [Header("Prefabs")]
         [SerializeField] private UnitView _bulletPrefab;
@@ -69,17 +69,24 @@ namespace Asteroids
             Container.Bind<SpawnOutsideGameZone>().AsSingle();
             Container.Bind<LazerRendererController>().AsSingle();
             Container.Bind<FSM>().AsSingle();
+            Container.Bind<Score>().AsSingle();
+            Container.Bind<DebugViewModel>().AsSingle();
+            Container.Bind<FinalScoreViewModel>().AsSingle();
 
             Container.Bind<IWeapon>().WithId("first").To<BulletWeapon>().AsSingle();
-            Container.Bind<IWeapon>().WithId("second").To<LazerWeapon>().AsSingle();
+            Container.Bind<IWeapon>().WithId("second").To<LazerWeapon>().FromResolve().AsCached();
+            Container.Bind<LazerWeapon>().AsCached();
 
-            Container.BindInstances(_asteroidSystemConfig, _ufoSystemConfig, _bulletWeaponConfig, _lazerWeaponConfig, _lazerPrefab, _lazerRendererConfig);
+            Container.BindInstances(_asteroidSystemConfig, _ufoSystemConfig, _bulletWeaponConfig, _lazerWeaponConfig,
+                                    _lazerPrefab, _lazerRendererConfig, _debugView, _finalScoreView);
             Container.QueueForInject(_asteroidSystemConfig);
             Container.QueueForInject(_ufoSystemConfig);
             Container.QueueForInject(_bulletWeaponConfig);
             Container.QueueForInject(_lazerWeaponConfig);
             Container.QueueForInject(_lazerPrefab);
             Container.QueueForInject(_lazerRendererConfig);
+            Container.QueueForInject(_debugView);
+            Container.QueueForInject(_finalScoreView);
             Container.QueueForInject(ship);
             Container.QueueForInject(ship.Unit);
             Container.QueueForInject(bulletFactory);
@@ -87,6 +94,7 @@ namespace Asteroids
             Container.QueueForInject(bigAsteroidFactory);
             Container.QueueForInject(ufoFactory);
 
+            Container.Bind<UISwitcher>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<Game>().AsSingle().NonLazy();
         }
 
