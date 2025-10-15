@@ -6,17 +6,15 @@ using Zenject;
 
 public class Game : ITickable, IInitializable
 {
-    private readonly AsteroidsSystem _asteroidSystem;
-    private readonly UFOSystem _ufoSystem;
+    private readonly EnemyController _enemyController;
     private readonly Arsenal _arsenal;
     private readonly CompositeUnit _ship;
     private readonly FSM _fsm;
     private readonly Score _score;
 
-    public Game(AsteroidsSystem asteroidSystem, UFOSystem ufoSystem, Arsenal arsenal, CompositeUnit ship, FSM fsm, Score score)
+    public Game(EnemyController enemyController, Arsenal arsenal, CompositeUnit ship, FSM fsm, Score score)
     {
-        _asteroidSystem = asteroidSystem;
-        _ufoSystem = ufoSystem;
+        _enemyController = enemyController;
         _arsenal = arsenal;
         _ship = ship;
         _fsm = fsm;
@@ -25,10 +23,7 @@ public class Game : ITickable, IInitializable
 
     public void Initialize()
     {
-        _asteroidSystem.OnBigAsteroidDied += OnEnemyDied;
-        _asteroidSystem.OnSmallAsteroidDied += OnEnemyDied;
-        _ufoSystem.OnUFODied += OnEnemyDied;
-
+        _enemyController.OnEnemyDied += EnemyDiedHandler;
         _fsm.OnStateChanged += StateChangedHandler;
         _fsm.SwitchState(StateEnum.Play);
     }
@@ -43,8 +38,7 @@ public class Game : ITickable, IInitializable
     {
         if (_fsm.State == StateEnum.Play)
         {
-            _asteroidSystem.Update(Time.deltaTime);
-            _ufoSystem.Update(Time.deltaTime);
+            _enemyController.Update(Time.deltaTime);
             _ship.Update(Time.deltaTime);
             _arsenal.Update(Time.deltaTime);
         }
@@ -57,7 +51,7 @@ public class Game : ITickable, IInitializable
         _ship.Unit.OnDied += OnShipDied;
     }
 
-    private void OnEnemyDied()
+    private void EnemyDiedHandler()
     {
         _score.Value.Value++;
     }
@@ -65,8 +59,7 @@ public class Game : ITickable, IInitializable
     private void Clear()
     {
         _score.Value.Value = 0;
-        _asteroidSystem.Clear();
-        _ufoSystem.Clear();
+        _enemyController.Clear();
         _arsenal.Clear();
         _ship.Unit.Data = new TransformData();
     }

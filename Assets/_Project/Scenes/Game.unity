@@ -481,17 +481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
   _camera: {fileID: 519420031}
-  _asteroidSystemConfig:
-    TimeForSpawn: 1.5
-    AccumulatedTime: 3
-    BigAsteroidMinSpeed: 1
-    BigAsteroidMaxSpeed: 2
-    ChildrenFromBigAsteroid: 5
-    DeviationDegrees: 30
-    SmallAsteroidParentSpeedCoef: 1.1
-  _ufoSystemConfig:
-    TimeForSpawn: 10
-    AccumulatedTime: -15
   _shipMovementConfig:
     IncreaseVelocity: 7.5
     DecreaseVelocity: 5
@@ -554,6 +543,16 @@ MonoBehaviour:
   _bigAsteroidPrefab: {fileID: -4563810927153591638, guid: 5d80d877c663d964f95976d878eefab1, type: 3}
   _ufoPrefab: {fileID: 3073719931397446709, guid: 199a11bdacad7d444a56d22a65ac4a22, type: 3}
   _lazerPrefab: {fileID: 9021697608971828872, guid: 2544c1956fe973749971bdc143598b4f, type: 3}
+  _timeForSpawnBigAsteroid: 1.5
+  _accumulatedTimeBigAsteroid: 6
+  _minSpeedBigAsteroid: 1
+  _maxSpeedBigAsteroid: 2
+  _timeForSpawnUFO: 15
+  _accumulatedTimeUFO: -15
+  _smallAsteroidSpawnerConfig:
+    CountChildren: 5
+    SpeedCoef: 1.1
+    DeviationDegrees: 35
 --- !u!4 &1761891728
 Transform:
   m_ObjectHideFlags: 0
