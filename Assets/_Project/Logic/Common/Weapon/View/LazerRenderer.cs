@@ -39,12 +39,12 @@ namespace Asteroids.Logic.Common.Weapon.View
             _lineRenderer.endWidth = _config.WidthCurve.Evaluate(_accumulatedTime);
         }
 
-        [Serializable]
-        public struct Config
+        [CreateAssetMenu(fileName = "LazerRendererConfig", menuName = "Configs/LazerRendererConfig")]
+        public class Config : ScriptableObject
         {
-            public float LifeTime;
-            public float Length;
-            public AnimationCurve WidthCurve;
+            [field: SerializeField] public float LifeTime { get; private set; }
+            [field: SerializeField] public float Length { get; private set; }
+            [field: SerializeField] public AnimationCurve WidthCurve { get; private set; }
         }
     }
 }

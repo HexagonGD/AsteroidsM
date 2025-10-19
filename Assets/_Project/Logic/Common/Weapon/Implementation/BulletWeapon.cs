@@ -1,30 +1,28 @@
 using Asteroids.Logic.Common.Movement.Core;
 using Asteroids.Logic.Common.Services.Factory.Implementation;
 using Asteroids.Logic.Common.Units;
+using Asteroids.Logic.Common.Units.Core;
+using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Weapon.Core;
 using Asteroids.Logic.Extensions;
-using Asteroids.Logic.Zones;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asteroids.Logic.Common.Weapon.Implementation
 {
-    public class BulletWeapon : IWeapon
+    public partial class BulletWeapon : IWeapon
     {
         private readonly Unit _unit;
         private readonly CompositeFactory _bulletFactory;
         private readonly Config _config;
-        private readonly PlayZone _playZone;
-        private DeadZone _deadZone = new();
 
         private List<CompositeUnit> _bullets = new();
 
-        public BulletWeapon(Unit unit, CompositeFactory bulletFactory, Config config, PlayZone playZone)
+        public BulletWeapon(Ship unit, Unit.Factory bulletFactory, UnitView.Factory unitViewFactory, Config config)
         {
             _unit = unit;
-            _bulletFactory = bulletFactory;
+            _bulletFactory = new CompositeFactory(bulletFactory, unitViewFactory);
             _config = config;
-            _playZone = playZone;
             RemainingReloadTime = 0;
         }
 
@@ -33,13 +31,9 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
 
         public void Update(float deltaTime)
         {
-            for (var i = _bullets.Count - 1; i >= 0; i--)
-            {
-                _bullets[i].Update(deltaTime);
-                if (_deadZone.CheckInDeadZone(_bullets[i].Unit.Data, _playZone))
-                    _bullets[i].Unit.Die(false);
-            }
             RemainingReloadTime = Mathf.Max(RemainingReloadTime - deltaTime, 0);
+            foreach (var bullet in _bullets.ToArray())
+                bullet.Update(deltaTime);
         }
 
         public bool TryShot()
@@ -73,13 +67,6 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
             _bullets[index].Unit.OnDied -= OnBulletDead;
             _bulletFactory.Release(_bullets[index]);
             _bullets.RemoveAt(index);
-        }
-
-        [System.Serializable]
-        public struct Config
-        {
-            public float ReloadTime;
-            public float BulletSpeed;
         }
     }
 }

@@ -1,9 +1,5 @@
 using UnityEngine;
 using Zenject;
-using System;
-using Random = UnityEngine.Random;
-using System.Collections.Generic;
-using Asteroids.Logic.Common.Movement.Core;
 using Asteroids.Logic.Common.Movement.Implementation;
 using Asteroids.Logic.Common.Weapon.Implementation;
 using Asteroids.Logic.Common.Weapon.View;
@@ -11,136 +7,104 @@ using Asteroids.Logic.Common.UI.Implementation;
 using Asteroids.Logic.Common.Units;
 using Asteroids.Logic.Common.Spawners.Implementation;
 using Asteroids.Logic.Zones;
+using Asteroids.Logic.Common.Services;
+using Asteroids.Logic.Common.Weapon.Core;
+using Asteroids.Logic.Common.UI.Core;
+using Asteroids.Logic.FSMachine;
+using Asteroids.Logic.Common.Movement.DeadZoneHandler.Implementation;
+using Asteroids.Logic.Common.DieHandler.Implementation;
 using Asteroids.Logic.Common.Movement.BorderHandler.Implementation;
 using Asteroids.Logic.Movement.BorderHandler.Implementation;
 using Asteroids.Logic.Common.Spawners.Core;
-using Asteroids.Logic.Common.Services;
-using Asteroids.Logic.Common.Services.Factory.Implementation;
-using Asteroids.Logic.Common.Weapon.Core;
-using Asteroids.Logic.Common.UI.Core;
-using Asteroids.Logic.Common.Movement.BorderHandler.Core;
-using Asteroids.Logic.FSMachine;
+using Asteroids.Logic.Content;
+using Asteroids.Logic.Common.Units.Implementation;
+using Asteroids.Logic.Common.Units.Core;
 
 namespace Asteroids.Logic.Bootstrap
 {
     public class GameInstaller : MonoInstaller
     {
         [SerializeField] private Camera _camera;
+        [SerializeField] private Canvas _canvas;
         [SerializeField] private AccelerationMovement.SpeedData _shipMovementConfig;
-        [SerializeField] private MoveToTarget.Config _ufoMovementConfig;
 
         [Header("Weapon Configs")]
         [SerializeField] private BulletWeapon.Config _bulletWeaponConfig;
         [SerializeField] private LazerWeapon.Config _lazerWeaponConfig;
         [SerializeField] private LazerRenderer.Config _lazerRendererConfig;
 
-        [Header("UI")]
-        [SerializeField] private DebugView _debugView;
-        [SerializeField] private FinalScoreView _finalScoreView;
+        [Header("Spawner Configs")]
+        [SerializeField] private UFOSpawner.Config _ufoSpawnerConfig;
+        [SerializeField] private BigAsteroidSpawner.Config _bigAsteroidSpawnerConfig;
+        [SerializeField] private SmallAsteroidSpawner.Config _smallAsteroidSpawnerConfig;
 
         [Header("Prefabs")]
-        [SerializeField] private UnitView _bulletPrefab;
-        [SerializeField] private UnitView _shipPrefab;
-        [SerializeField] private UnitView _smallAsteroidPrefab;
-        [SerializeField] private UnitView _bigAsteroidPrefab;
-        [SerializeField] private UnitView _ufoPrefab;
+        [SerializeField] private PrefabsConfig _prefabsConfig;
         [SerializeField] private LineRenderer _lazerPrefab;
-
-        [Header("Spawners")]
-        [SerializeField, Min(0)] private float _timeForSpawnBigAsteroid;
-        [SerializeField] private float _accumulatedTimeBigAsteroid;
-        [SerializeField, Min(0)] private float _minSpeedBigAsteroid;
-        [SerializeField, Min(0)] private float _maxSpeedBigAsteroid;
-        [SerializeField, Min(0)] private float _timeForSpawnUFO;
-        [SerializeField] private float _accumulatedTimeUFO;
-        [SerializeField] private DiedParentChildrenSpawner.Config _smallAsteroidSpawnerConfig;
 
         public override void InstallBindings()
         {
-            var playZone = new PlayZone(_camera);
-
-            Func<TransformData> bigAsteroidSetupData = () =>
-            {
-                var data = new TransformData();
-                var spawnPosition = new SpawnOutsideGameZone();
-
-                data.Position = spawnPosition.GetSpawnPosition(playZone);
-
-                var x = Random.Range(-playZone.Width / 4f, playZone.Width / 4f);
-                var y = Random.Range(-playZone.Height / 4f, playZone.Height / 4f);
-
-                data.Speed = (new Vector2(x, y) - data.Position).normalized * Random.Range(_minSpeedBigAsteroid, _maxSpeedBigAsteroid);
-                return data;
-            };
-
-            Func<TransformData> ufoSetupData = () =>
-            {
-                var data = new TransformData();
-                var spawnPosition = new SpawnOutsideGameZone();
-                data.Position = spawnPosition.GetSpawnPosition(playZone);
-                return data;
-            };
-
-            var shipFactory = BuildCompositeFactory(new AccelerationMovement(_shipMovementConfig), new ScreenBorderTeleport(playZone), _shipPrefab);
-            var ship = shipFactory.Get();
-            
-            var bulletFactory = BuildCompositeFactory(new LinearMovement(), new IgnoreBorder(), _bulletPrefab);
-            var smallAsteroidFactory = BuildCompositeFactory(new LinearMovement(), new IgnoreBorder(), _smallAsteroidPrefab);
-            var bigAsteroidFactory = BuildCompositeFactory(new LinearMovement(), new IgnoreBorder(), _bigAsteroidPrefab);
-            var ufoFactory = BuildCompositeFactory(new MoveToTarget(ship.Unit, _ufoMovementConfig), new IgnoreBorder(), _ufoPrefab);
-
-            var bigAsteroidSpawner = new SimpleSpawner(bigAsteroidFactory, bigAsteroidSetupData, _timeForSpawnBigAsteroid, _accumulatedTimeBigAsteroid);
-            var ufoSpawner = new SimpleSpawner(ufoFactory, ufoSetupData, _timeForSpawnUFO, _accumulatedTimeUFO);
-            var smallAsteroidSpawner = new DiedParentChildrenSpawner(smallAsteroidFactory, bigAsteroidSpawner, _smallAsteroidSpawnerConfig);
-            var spawners = new List<ISpawner<CompositeUnit>>() { bigAsteroidSpawner, ufoSpawner, smallAsteroidSpawner };
-
-            Container.Bind<List<ISpawner<CompositeUnit>>>().FromInstance(spawners).AsSingle();
-            Container.QueueForInject(spawners);
-
-            Container.Bind<EnemyController>().AsSingle();
-
-            Container.Bind<CompositeFactory>().FromInstance(bulletFactory).AsSingle().WhenInjectedInto<BulletWeapon>();
-
-            Container.Bind<CompositeUnit>().FromInstance(ship).AsSingle();
-            Container.Bind<Unit>().FromInstance(ship.Unit).AsSingle();
-            Container.Bind<PlayZone>().FromInstance(playZone).AsSingle();
+            Container.Bind<PlayZone>().AsSingle().WithArguments(_camera);
+            Container.Bind<SpawnersController>().AsSingle();
             Container.Bind<Arsenal>().AsSingle();
-            Container.Bind<SpawnOutsideGameZone>().AsSingle();
             Container.Bind<LazerRendererController>().AsSingle();
             Container.Bind<FSM>().AsSingle();
             Container.Bind<Score>().AsSingle();
             Container.Bind<DebugViewModel>().AsSingle();
             Container.Bind<FinalScoreViewModel>().AsSingle();
+            Container.Bind<DebugView>().FromComponentInNewPrefab(_prefabsConfig.DebugViewPrefab).UnderTransform(_canvas.transform).AsSingle();
+            Container.Bind<FinalScoreView>().FromComponentInNewPrefab(_prefabsConfig.FinalScoreViewPrefab).UnderTransform(_canvas.transform).AsSingle();
 
             Container.Bind<IWeapon>().WithId("first").To<BulletWeapon>().AsSingle();
             Container.Bind<IWeapon>().WithId("second").To<LazerWeapon>().FromResolve().AsCached();
             Container.Bind<LazerWeapon>().AsCached();
 
-            Container.BindInstances(_bulletWeaponConfig, _lazerWeaponConfig,
-                                    _lazerPrefab, _lazerRendererConfig, _debugView, _finalScoreView);
+            Container.BindInstances(_bulletWeaponConfig, _lazerWeaponConfig, _lazerPrefab, _lazerRendererConfig, _shipMovementConfig,
+                                    _ufoSpawnerConfig, _smallAsteroidSpawnerConfig, _bigAsteroidSpawnerConfig);
             Container.QueueForInject(_bulletWeaponConfig);
             Container.QueueForInject(_lazerWeaponConfig);
             Container.QueueForInject(_lazerPrefab);
             Container.QueueForInject(_lazerRendererConfig);
-            Container.QueueForInject(_debugView);
-            Container.QueueForInject(_finalScoreView);
-            Container.QueueForInject(ship);
-            Container.QueueForInject(ship.Unit);
-            Container.QueueForInject(bulletFactory);
-            Container.QueueForInject(smallAsteroidFactory);
-            Container.QueueForInject(bigAsteroidFactory);
-            Container.QueueForInject(ufoFactory);
-            
+            Container.QueueForInject(_shipMovementConfig);
+            Container.QueueForInject(_ufoSpawnerConfig);
+            Container.QueueForInject(_smallAsteroidSpawnerConfig);
+            Container.QueueForInject(_bigAsteroidSpawnerConfig);
+
+            Container.Bind<ChangePositionOnOutsidePlayZone>().AsSingle().WithArguments<float>(3f);
+            Container.Bind<CompositeUnitRepository>().AsSingle();
+
+            Container.Bind<AccelerationMovement>().AsSingle();
+            Container.Bind<LinearMovement>().AsSingle();
+            Container.Bind<MoveToShip>().AsSingle();
+
+            Container.Bind<IgnoreBorder>().AsSingle();
+            Container.Bind<ScreenBorderTeleport>().AsSingle();
+
+            Container.Bind<IngoreDeadZone>().AsSingle();
+            Container.Bind<OffsetBorderDeadZone>().AsSingle().WithArguments<float>(3f);
+
+            Container.Bind<WithoutDieEffect>().AsSingle();
+            Container.Bind<SpawnChildrenDieEffect>().AsSingle();
+
+            Container.Bind<ISpawner<CompositeUnit>>().To<UFOSpawner>().AsCached();
+            Container.Bind<ISpawner<CompositeUnit>>().To<SmallAsteroidSpawner>().FromResolve().AsCached();
+            Container.Bind<SmallAsteroidSpawner>().AsCached();
+            Container.Bind<ISpawner<CompositeUnit>>().To<BigAsteroidSpawner>().AsCached();
+
+            Container.Bind<Ship>().AsSingle();
+            Container.BindFactory<Unit, Unit.Factory>().To<Bullet>().WhenInjectedInto<BulletWeapon>();
+            Container.BindFactory<Unit, Unit.Factory>().To<UFO>().WhenInjectedInto<UFOSpawner>();
+            Container.BindFactory<Unit, Unit.Factory>().To<SmallAsteroid>().WhenInjectedInto<SmallAsteroidSpawner>();
+            Container.BindFactory<Unit, Unit.Factory>().To<BigAsteroid>().WhenInjectedInto<BigAsteroidSpawner>();
+
+            Container.Bind<UnitView>().FromComponentInNewPrefab(_prefabsConfig.ShipPrefab).AsSingle().WhenInjectedInto<Game>();
+            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(_prefabsConfig.BulletPrefab).UnderTransformGroup("Bullets").WhenInjectedInto<BulletWeapon>();
+            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(_prefabsConfig.UFOPrefab).UnderTransformGroup("UFO").WhenInjectedInto<UFOSpawner>();
+            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(_prefabsConfig.SmallAsteroidPrefab).UnderTransformGroup("SmallAsteroids").WhenInjectedInto<SmallAsteroidSpawner>();
+            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(_prefabsConfig.BigAsteroidPrefab).UnderTransformGroup("BigAsteroids").WhenInjectedInto<BigAsteroidSpawner>();
 
             Container.Bind<UISwitcher>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<Game>().AsSingle().NonLazy();
-        }
-
-        private CompositeFactory BuildCompositeFactory(IMovement movement, IBorderHandler borderHandler, UnitView prefab)
-        {
-            var unitFactory = new UnitFactory(movement, borderHandler);
-            var unitViewFactory = new UnitViewFactory(prefab);
-            return new CompositeFactory(unitFactory, unitViewFactory);
         }
     }
 }

@@ -39,13 +39,13 @@ namespace Asteroids.Logic.Common.Movement.Implementation
             return data;
         }
 
-        [System.Serializable]
-        public struct SpeedData
+        [CreateAssetMenu(fileName = "ShipMovementConfig", menuName = "Configs/ShipMovementConfig")]
+        public class SpeedData : ScriptableObject
         {
-            [Min(0)] public float IncreaseVelocity;
-            [Min(0)] public float DecreaseVelocity;
-            [Min(0)] public float MaxVelocity;
-            [Min(0)] public float RotateSpeed;
+            [field: SerializeField, Min(0)] public float IncreaseVelocity { get; private set; }
+            [field: SerializeField, Min(0)] public float DecreaseVelocity { get; private set; }
+            [field: SerializeField, Min(0)] public float MaxVelocity { get; private set; }
+            [field: SerializeField, Min(0)] public float RotateSpeed { get; private set; }
         }
     }
 }

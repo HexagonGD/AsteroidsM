@@ -1,4 +1,6 @@
+using Asteroids.Logic.Common.Units.Core;
 using UnityEngine;
+using Zenject;
 
 namespace Asteroids.Logic.Common.Units
 {
@@ -25,5 +27,7 @@ namespace Asteroids.Logic.Common.Units
                 unitView.Unit?.Die(_destroyCollisionWithEffect);
             }
         }
+
+        public class Factory : PlaceholderFactory<UnitView> { }
     }
 }

@@ -1,4 +1,6 @@
 using Asteroids.Logic.Common.Units;
+using Asteroids.Logic.Common.Units.Core;
+using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Weapon.Core;
 using Asteroids.Logic.Common.Weapon.View;
 using Asteroids.Logic.Extensions;
@@ -6,7 +8,7 @@ using UnityEngine;
 
 namespace Asteroids.Logic.Common.Weapon.Implementation
 {
-    public class LazerWeapon : IWeapon
+    public partial class LazerWeapon : IWeapon
     {
         private readonly Unit _unit;
         private readonly LazerRendererController _lazerController;
@@ -17,7 +19,7 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
         private float _accumulatedTime = 0;
         private float _accumulatedDelay = 0;
 
-        public LazerWeapon(Unit unit, LazerRendererController lazerController, Config config)
+        public LazerWeapon(Ship unit, LazerRendererController lazerController, Config config)
         {
             _unit = unit;
             _lazerController = lazerController;
@@ -76,16 +78,6 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
         public void Clear()
         {
             Charges = Mathf.Min(MaxCharges, _config.StartCharges);
-        }
-
-        [System.Serializable]
-        public class Config
-        {
-            [Min(0)] public int MaxCharges;
-            [Min(0)] public int StartCharges;
-            [Min(0)] public float ReloadChargeTime;
-            [Min(0)] public float DelayBetweenShots;
-            public LayerMask LayerMask;
         }
     }
 }

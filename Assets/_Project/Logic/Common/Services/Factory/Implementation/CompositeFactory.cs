@@ -1,17 +1,18 @@
 using Asteroids.Logic.Common.Services.Factory.Core;
 using Asteroids.Logic.Common.Units;
+using Asteroids.Logic.Common.Units.Core;
 using System.Collections.Generic;
 
 namespace Asteroids.Logic.Common.Services.Factory.Implementation
 {
     public class CompositeFactory : IPoolFactory<CompositeUnit>
     {
-        private readonly IFactory<Unit> _unitFactory;
-        private readonly IFactory<UnitView> _unitViewFactory;
+        private readonly Unit.Factory _unitFactory;
+        private readonly UnitView.Factory _unitViewFactory;
 
         private Stack<CompositeUnit> _pool = new();
 
-        public CompositeFactory(IFactory<Unit> unitFactory, IFactory<UnitView> unitViewFactory)
+        public CompositeFactory(Unit.Factory unitFactory, UnitView.Factory unitViewFactory)
         {
             _unitFactory = unitFactory;
             _unitViewFactory = unitViewFactory;
@@ -21,9 +22,8 @@ namespace Asteroids.Logic.Common.Services.Factory.Implementation
         {
             if (_pool.TryPop(out var result) == false)
             {
-                var unit = _unitFactory.Get();
-                var unitView = _unitViewFactory.Get();
-                unitView.Unit = unit;
+                var unit = _unitFactory.Create();
+                var unitView = _unitViewFactory.Create();
                 result = new CompositeUnit(unit, unitView);
             }
 

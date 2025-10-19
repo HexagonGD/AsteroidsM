@@ -1,4 +1,5 @@
 using Asteroids.Logic.Common.Services;
+using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Weapon.Implementation;
 using R3;
 using System;
@@ -16,7 +17,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
 
         private IDisposable _disposable;
 
-        public DebugViewModel(Score score, Units.Unit ship, LazerWeapon lazerWeapon)
+        public DebugViewModel(Score score, Ship ship, LazerWeapon lazerWeapon)
         {
             Score = score.Value.ToReadOnlyReactiveProperty();
             Position = Observable.EveryValueChanged(ship, x => x.Data.Position).ToReadOnlyReactiveProperty<Vector2>();

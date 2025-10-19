@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7948d125126c34baecb4b3bf29612e, type: 3}
+  m_Name: PrefabsConfig
+  m_EditorClassIdentifier: Assembly-CSharp::PrefabsConfig
+  ShipPrefab: {fileID: 9119986189424803661, guid: a333f15630a4e1648aae3fe811233821, type: 3}
+  UFOPrefab: {fileID: 3073719931397446709, guid: 199a11bdacad7d444a56d22a65ac4a22, type: 3}
+  SmallAsteroidPrefab: {fileID: -8262947504558750225, guid: 318ff94c03b39404bb99a3a289bad817, type: 3}
+  BigAsteroidPrefab: {fileID: -4563810927153591638, guid: 5d80d877c663d964f95976d878eefab1, type: 3}
+  BulletPrefab: {fileID: -3375577332039476969, guid: 7889cb1b53ca8494cb0995811642a706, type: 3}
+  DebugViewPrefab: {fileID: 1684268177980643009, guid: dc2b7112a0663fb44a485aab593a14c5, type: 3}
+  FinalScoreViewPrefab: {fileID: 6090235523111283261, guid: 803be787222a7234597061101a9d572f, type: 3}

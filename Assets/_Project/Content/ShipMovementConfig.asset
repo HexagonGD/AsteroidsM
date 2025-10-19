@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: ShipMovementConfig
+  m_EditorClassIdentifier: Assembly-CSharp:Asteroids.Logic.Common.Movement.Implementation:AccelerationMovement/SpeedData
+  <IncreaseVelocity>k__BackingField: 7.5
+  <DecreaseVelocity>k__BackingField: 5
+  <MaxVelocity>k__BackingField: 15
+  <RotateSpeed>k__BackingField: 180
