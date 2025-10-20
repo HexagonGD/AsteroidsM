@@ -19,6 +19,8 @@ using Asteroids.Logic.Common.Spawners.Core;
 using Asteroids.Logic.Content;
 using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Units.Core;
+using Asteroids.Logic.Common.Services.Saving.Core;
+using Asteroids.Logic.Common.Services.Saving.Implementation;
 
 namespace Asteroids.Logic.Bootstrap
 {
@@ -50,6 +52,7 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<LazerRendererController>().AsSingle();
             Container.Bind<FSM>().AsSingle();
             Container.Bind<Score>().AsSingle();
+            Container.Bind<ISaveManager>().To<PlayerPrefsSaveManager>().AsSingle();
             Container.Bind<DebugViewModel>().AsSingle();
             Container.Bind<FinalScoreViewModel>().AsSingle();
             Container.Bind<DebugView>().FromComponentInNewPrefab(_prefabsConfig.DebugViewPrefab).UnderTransform(_canvas.transform).AsSingle();

@@ -71,13 +71,13 @@ namespace Asteroids.Logic.Bootstrap
         private void EnemyDiedHandler(Unit unit, bool real)
         {
             if (real)
-                _score.Value.Value++;
+                _score.Current.Value++;
             unit.OnDied -= EnemyDiedHandler;
         }
 
         private void Clear()
         {
-            _score.Value.Value = 0;
+            _score.Current.Value = 0;
             _enemyController.Clear();
             _arsenal.Clear();
             _ship.Unit.Data = new TransformData();

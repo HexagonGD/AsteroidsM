@@ -19,7 +19,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
 
         public DebugViewModel(Score score, Ship ship, LazerWeapon lazerWeapon)
         {
-            Score = score.Value.ToReadOnlyReactiveProperty();
+            Score = score.Current.ToReadOnlyReactiveProperty();
             Position = Observable.EveryValueChanged(ship, x => x.Data.Position).ToReadOnlyReactiveProperty<Vector2>();
             Rotation = Observable.EveryValueChanged(ship, x => x.Data.Rotation).ToReadOnlyReactiveProperty<float>();
             LazerCharges = Observable.EveryValueChanged(lazerWeapon, x => x.Charges).ToReadOnlyReactiveProperty<int>();
