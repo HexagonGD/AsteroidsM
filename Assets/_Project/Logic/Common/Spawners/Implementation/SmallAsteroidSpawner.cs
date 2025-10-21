@@ -16,10 +16,10 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
 
         private readonly CompositeUnitRepository _unitRepository;
         private readonly CompositeFactory _factory;
-        private readonly Config _config;
+        private readonly SmallAsteroidSpawnerConfig _config;
         private readonly List<CompositeUnit> _units = new();
 
-        public SmallAsteroidSpawner(CompositeUnitRepository unitRepository, Unit.Factory unitFactory, UnitView.Factory unitViewFactory, Config config)
+        public SmallAsteroidSpawner(CompositeUnitRepository unitRepository, Unit.Factory unitFactory, UnitView.Factory unitViewFactory, SmallAsteroidSpawnerConfig config)
         {
             _unitRepository = unitRepository;
             _factory = new CompositeFactory(unitFactory, unitViewFactory);

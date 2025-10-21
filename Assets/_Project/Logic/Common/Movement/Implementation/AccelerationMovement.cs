@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Asteroids.Logic.Common.Movement.Implementation
 {
-    public class AccelerationMovement : IMovement
+    public partial class AccelerationMovement : IMovement
     {
-        private readonly SpeedData _speedData;
+        private readonly AccelerationMovementConfig _speedData;
 
         private WASD _input;
 
-        public AccelerationMovement(SpeedData data)
+        public AccelerationMovement(AccelerationMovementConfig data)
         {
             _input = new WASD();
             _input.Enable();
@@ -37,15 +37,6 @@ namespace Asteroids.Logic.Common.Movement.Implementation
 
             data += data.Speed * deltaTime;
             return data;
-        }
-
-        [CreateAssetMenu(fileName = "ShipMovementConfig", menuName = "Configs/ShipMovementConfig")]
-        public class SpeedData : ScriptableObject
-        {
-            [field: SerializeField, Min(0)] public float IncreaseVelocity { get; private set; }
-            [field: SerializeField, Min(0)] public float DecreaseVelocity { get; private set; }
-            [field: SerializeField, Min(0)] public float MaxVelocity { get; private set; }
-            [field: SerializeField, Min(0)] public float RotateSpeed { get; private set; }
         }
     }
 }

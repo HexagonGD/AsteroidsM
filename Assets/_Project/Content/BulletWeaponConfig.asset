@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0c5caceb8f0b90c4ebe52d2df47fd226, type: 3}
   m_Name: BulletWeaponConfig
   m_EditorClassIdentifier: Assembly-CSharp:Asteroids.Logic.Common.Weapon.Implementation:BulletWeapon/Config
-  ReloadTime: 0.25
+  ReloadTime: 0.2
   BulletSpeed: 20

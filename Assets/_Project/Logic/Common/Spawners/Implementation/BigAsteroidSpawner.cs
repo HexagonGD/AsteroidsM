@@ -11,10 +11,10 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
     {
         private readonly PlayZone _playZone;
         private readonly ChangePositionOnOutsidePlayZone _spawnPosition;
-        private readonly Config _config;
+        private readonly BigAsteroidSpawnerConfig _config;
 
         public BigAsteroidSpawner(PlayZone playZone, CompositeUnitRepository unitRepository,
-                                  ChangePositionOnOutsidePlayZone spawnPosition, Config config, Unit.Factory unitFactory, UnitView.Factory unitViewFactory) :
+                                  ChangePositionOnOutsidePlayZone spawnPosition, BigAsteroidSpawnerConfig config, Unit.Factory unitFactory, UnitView.Factory unitViewFactory) :
                              base(unitRepository, unitFactory, unitViewFactory, config.TimeForSpawn, config.AccumulatedTime)
         {
             _playZone = playZone;

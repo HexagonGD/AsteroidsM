@@ -12,14 +12,14 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
     {
         private readonly Unit _unit;
         private readonly LazerRendererController _lazerController;
-        private readonly Config _config;
+        private readonly LazerWeaponConfig _config;
 
         private RaycastHit2D[] _hits = new RaycastHit2D[25];
         private LayerMask _layerMask;
         private float _accumulatedTime = 0;
         private float _accumulatedDelay = 0;
 
-        public LazerWeapon(Ship unit, LazerRendererController lazerController, Config config)
+        public LazerWeapon(Ship unit, LazerRendererController lazerController, LazerWeaponConfig config)
         {
             _unit = unit;
             _lazerController = lazerController;

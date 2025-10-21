@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asteroids.Logic.Content
 {
-    [CreateAssetMenu(fileName = "PrefabsConfig", menuName = "PrefabsConfig")]
+    [CreateAssetMenu(fileName = "PrefabsConfig", menuName = "Configs/PrefabsConfig")]
     public class PrefabsConfig : ScriptableObject
     {
         [field: SerializeField] public UnitView ShipPrefab;

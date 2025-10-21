@@ -451,7 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
   _camera: {fileID: 519420031}
   _canvas: {fileID: 8938146919786006233}
-  _shipMovementConfig: {fileID: 11400000, guid: fee9a9c4e9d6ef145968f4387d34c624, type: 2}
+  _shipMovementConfig: {fileID: 11400000, guid: 89453fe37099c8f46a6c480d16c0d8d8, type: 2}
   _bulletWeaponConfig: {fileID: 11400000, guid: 777716f4116270646ac4b37e54e66b50, type: 2}
   _lazerWeaponConfig: {fileID: 11400000, guid: b86bd52f36c87d943bdfec5c1ff3bd93, type: 2}
   _lazerRendererConfig: {fileID: 11400000, guid: ec2217e3764c42346b5919084f765bb5, type: 2}

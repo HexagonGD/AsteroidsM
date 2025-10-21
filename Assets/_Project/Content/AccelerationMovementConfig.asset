@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: ShipMovementConfig
-  m_EditorClassIdentifier: Assembly-CSharp:Asteroids.Logic.Common.Movement.Implementation:AccelerationMovement/SpeedData
+  m_Script: {fileID: 11500000, guid: a676cd0b07aeb2a4684e0c3f03a1c7cb, type: 3}
+  m_Name: AccelerationMovementConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Logic.Common.Movement.Implementation.AccelerationMovementConfig
   <IncreaseVelocity>k__BackingField: 7.5
   <DecreaseVelocity>k__BackingField: 5
   <MaxVelocity>k__BackingField: 15

@@ -14,11 +14,11 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
     {
         private readonly Unit _unit;
         private readonly CompositeFactory _bulletFactory;
-        private readonly Config _config;
+        private readonly BulletWeaponConfig _config;
 
         private List<CompositeUnit> _bullets = new();
 
-        public BulletWeapon(Ship unit, Unit.Factory bulletFactory, UnitView.Factory unitViewFactory, Config config)
+        public BulletWeapon(Ship unit, Unit.Factory bulletFactory, UnitView.Factory unitViewFactory, BulletWeaponConfig config)
         {
             _unit = unit;
             _bulletFactory = new CompositeFactory(bulletFactory, unitViewFactory);

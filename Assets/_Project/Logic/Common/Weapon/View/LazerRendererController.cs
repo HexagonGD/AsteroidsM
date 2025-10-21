@@ -6,10 +6,10 @@ namespace Asteroids.Logic.Common.Weapon.View
     public class LazerRendererController
     {
         private readonly LineRenderer _lineRendererPrefab;
-        private readonly LazerRenderer.Config _config;
+        private readonly LazerRendererConfig _config;
         private List<LazerRenderer> _renderers = new();
 
-        public LazerRendererController(LineRenderer lineRendererPrefab, LazerRenderer.Config config)
+        public LazerRendererController(LineRenderer lineRendererPrefab, LazerRendererConfig config)
         {
             _lineRendererPrefab = lineRendererPrefab;
             _config = config;

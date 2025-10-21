@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: a07ae9c225a385d4aa06583c333c9ca9, type: 3}
   m_Name: UFOSpawnerConfig
   m_EditorClassIdentifier: Assembly-CSharp:Asteroids.Logic.Common.Spawners.Implementation:UFOSpawner/Config
-  <TimeForSpawn>k__BackingField: 10
-  <AccumulatedTime>k__BackingField: -15
-  <Speed>k__BackingField: 2.5
+  <TimeForSpawn>k__BackingField: 15
+  <AccumulatedTime>k__BackingField: 0
+  <Speed>k__BackingField: 3

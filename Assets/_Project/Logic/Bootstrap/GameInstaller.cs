@@ -28,17 +28,17 @@ namespace Asteroids.Logic.Bootstrap
     {
         [SerializeField] private Camera _camera;
         [SerializeField] private Canvas _canvas;
-        [SerializeField] private AccelerationMovement.SpeedData _shipMovementConfig;
+        [SerializeField] private AccelerationMovementConfig _shipMovementConfig;
 
         [Header("Weapon Configs")]
-        [SerializeField] private BulletWeapon.Config _bulletWeaponConfig;
-        [SerializeField] private LazerWeapon.Config _lazerWeaponConfig;
-        [SerializeField] private LazerRenderer.Config _lazerRendererConfig;
+        [SerializeField] private BulletWeaponConfig _bulletWeaponConfig;
+        [SerializeField] private LazerWeaponConfig _lazerWeaponConfig;
+        [SerializeField] private LazerRendererConfig _lazerRendererConfig;
 
         [Header("Spawner Configs")]
-        [SerializeField] private UFOSpawner.Config _ufoSpawnerConfig;
-        [SerializeField] private BigAsteroidSpawner.Config _bigAsteroidSpawnerConfig;
-        [SerializeField] private SmallAsteroidSpawner.Config _smallAsteroidSpawnerConfig;
+        [SerializeField] private UFOSpawnerConfig _ufoSpawnerConfig;
+        [SerializeField] private BigAsteroidSpawnerConfig _bigAsteroidSpawnerConfig;
+        [SerializeField] private SmallAsteroidSpawnerConfig _smallAsteroidSpawnerConfig;
 
         [Header("Prefabs")]
         [SerializeField] private PrefabsConfig _prefabsConfig;

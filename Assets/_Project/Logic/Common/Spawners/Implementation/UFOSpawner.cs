@@ -9,10 +9,10 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
     public partial class UFOSpawner : SimpleSpawner
     {
         private readonly ChangePositionOnOutsidePlayZone _spawnPosition;
-        private readonly Config _config;
+        private readonly UFOSpawnerConfig _config;
 
         public UFOSpawner(ChangePositionOnOutsidePlayZone spawnPosition, CompositeUnitRepository unitRepository,
-                          Config config, Unit.Factory unitFactory, UnitView.Factory unitViewFactory) :
+                          UFOSpawnerConfig config, Unit.Factory unitFactory, UnitView.Factory unitViewFactory) :
                      base(unitRepository, unitFactory, unitViewFactory, config.TimeForSpawn, config.AccumulatedTime)
         {
             _spawnPosition = spawnPosition;

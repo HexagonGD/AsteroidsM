@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 209271148f920124899080b443e07e86, type: 3}
   m_Name: SmallAsteroidSpawnerConfig
   m_EditorClassIdentifier: Assembly-CSharp:Asteroids.Logic.Common.Spawners.Implementation:SmallAsteroidSpawner/Config
   <CountChildren>k__BackingField: 5
