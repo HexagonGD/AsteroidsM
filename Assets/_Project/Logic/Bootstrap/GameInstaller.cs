@@ -128,7 +128,7 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<LazerWeaponFireAnalyticListener>().AsCached();
             Container.Bind<IAnalyticListener>().To<StartGameAnalyticListener>().AsSingle();
             Container.Bind<IAnalyticListener>().To<EndGameAnalyticListener>().AsSingle();
-            Container.Bind<IAnalytic>().To<TestAnalytic>().AsSingle();
+            Container.Bind<IAnalytic>().To<FirebaseAdapter>().AsSingle();
             Container.Bind<AnalyticManager>().AsSingle().NonLazy();
         }
     }
