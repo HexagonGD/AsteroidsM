@@ -5,6 +5,7 @@ using Asteroids.Logic.Common.Units.Core;
 using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Weapon.Core;
 using Asteroids.Logic.Extensions;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
 {
     public partial class BulletWeapon : IWeapon
     {
+        public event Action OnFired;
+
         private readonly Unit _unit;
         private readonly CompositeFactory _bulletFactory;
         private readonly BulletWeaponConfig _config;
@@ -47,6 +50,7 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
                 _bullets.Add(bullet);
                 bullet.Unit.OnDied += OnBulletDead;
                 RemainingReloadTime = ReloadTime;
+                OnFired?.Invoke();
                 return true;
             }
 

@@ -21,6 +21,10 @@ using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Units.Core;
 using Asteroids.Logic.Common.Services.Saving.Core;
 using Asteroids.Logic.Common.Services.Saving.Implementation;
+using Asteroids.Logic.Analytics.Core;
+using Asteroids.Logic.Analytics.Implementation.UnitDiedListeners;
+using Asteroids.Logic.Analytics.Implementation.WeaponListeners;
+using Asteroids.Logic.Analytics.Implementation;
 
 namespace Asteroids.Logic.Bootstrap
 {
@@ -58,8 +62,9 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<DebugView>().FromComponentInNewPrefab(_prefabsConfig.DebugViewPrefab).UnderTransform(_canvas.transform).AsSingle();
             Container.Bind<FinalScoreView>().FromComponentInNewPrefab(_prefabsConfig.FinalScoreViewPrefab).UnderTransform(_canvas.transform).AsSingle();
 
-            Container.Bind<IWeapon>().WithId("first").To<BulletWeapon>().AsSingle();
+            Container.Bind<IWeapon>().WithId("first").To<BulletWeapon>().FromResolve().AsCached();
             Container.Bind<IWeapon>().WithId("second").To<LazerWeapon>().FromResolve().AsCached();
+            Container.Bind<BulletWeapon>().AsCached();
             Container.Bind<LazerWeapon>().AsCached();
 
             Container.BindInstances(_bulletWeaponConfig, _lazerWeaponConfig, _lazerPrefab, _lazerRendererConfig, _shipMovementConfig,
@@ -108,6 +113,23 @@ namespace Asteroids.Logic.Bootstrap
 
             Container.Bind<UISwitcher>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<Game>().AsSingle().NonLazy();
+
+            BindAnalytic();
+        }
+
+        private void BindAnalytic()
+        {
+            Container.Bind<UFODiedAnalyticListener>().AsSingle();
+            Container.Bind<SmallAsteroidDiedAnalyticListener>().AsSingle();
+            Container.Bind<BigAsteroidDiedAnalyticListener>().AsSingle();
+            Container.Bind<AsteroidDiedAnalyticListener>().AsSingle();
+            Container.Bind<BulletWeaponFireAnalyticListener>().AsSingle();
+            Container.Bind<IAnalyticListener>().To<LazerWeaponFireAnalyticListener>().FromResolve().AsCached();
+            Container.Bind<LazerWeaponFireAnalyticListener>().AsCached();
+            Container.Bind<IAnalyticListener>().To<StartGameAnalyticListener>().AsSingle();
+            Container.Bind<IAnalyticListener>().To<EndGameAnalyticListener>().AsSingle();
+            Container.Bind<IAnalytic>().To<TestAnalytic>().AsSingle();
+            Container.Bind<AnalyticManager>().AsSingle().NonLazy();
         }
     }
 }

@@ -4,12 +4,15 @@ using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Weapon.Core;
 using Asteroids.Logic.Common.Weapon.View;
 using Asteroids.Logic.Extensions;
+using System;
 using UnityEngine;
 
 namespace Asteroids.Logic.Common.Weapon.Implementation
 {
     public partial class LazerWeapon : IWeapon
     {
+        public event Action OnFired;
+
         private readonly Unit _unit;
         private readonly LazerRendererController _lazerController;
         private readonly LazerWeaponConfig _config;
@@ -49,6 +52,7 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
                 }
 
                 _lazerController.DrawLazer(_unit.Data.Position, Vector2.right.Vector2FromAngle(_unit.Data.Rotation));
+                OnFired?.Invoke();
                 return true;
             }
 
