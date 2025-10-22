@@ -25,6 +25,8 @@ using Asteroids.Logic.Analytics.Core;
 using Asteroids.Logic.Analytics.Implementation.UnitDiedListeners;
 using Asteroids.Logic.Analytics.Implementation.WeaponListeners;
 using Asteroids.Logic.Analytics.Implementation;
+using Asteroids.Logic.Ads.Core;
+using Asteroids.Logic.Ads.Implementation;
 
 namespace Asteroids.Logic.Bootstrap
 {
@@ -128,6 +130,7 @@ namespace Asteroids.Logic.Bootstrap
             Container.BindInterfacesAndSelfTo<Game>().AsSingle().NonLazy();
 
             BindAnalytic();
+            BindAds();
         }
 
         private void BindAnalytic()
@@ -143,6 +146,12 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<IAnalyticListener>().To<EndGameAnalyticListener>().AsSingle();
             Container.Bind<IAnalytic>().To<FirebaseAdapter>().AsSingle();
             Container.Bind<AnalyticManager>().AsSingle().NonLazy();
+        }
+
+        private void BindAds()
+        {
+            Container.Bind<AdsController>();
+            Container.Bind<IAdsProvider>().To<TestAdsProvider>();
         }
 
         private void OnDestroy()
