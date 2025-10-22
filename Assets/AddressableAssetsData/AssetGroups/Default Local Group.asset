@@ -14,7 +14,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
   m_GUID: 4bdc96b981b282b48bcb43ace2563597
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 199a11bdacad7d444a56d22a65ac4a22
+    m_Address: Assets/_Project/Prefabs/UFO.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2544c1956fe973749971bdc143598b4f
+    m_Address: Assets/_Project/Prefabs/Lazer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 318ff94c03b39404bb99a3a289bad817
+    m_Address: Assets/_Project/Prefabs/SmallAsteroid.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d80d877c663d964f95976d878eefab1
+    m_Address: Assets/_Project/Prefabs/Asteroid.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7889cb1b53ca8494cb0995811642a706
+    m_Address: Assets/_Project/Prefabs/Bullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 803be787222a7234597061101a9d572f
+    m_Address: Assets/_Project/Prefabs/FinalScoreView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a333f15630a4e1648aae3fe811233821
+    m_Address: Assets/_Project/Prefabs/Ship.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc2b7112a0663fb44a485aab593a14c5
+    m_Address: Assets/_Project/Prefabs/DebugView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f4dad6b45770f0c4ab5eb8eab061ac14, type: 2}
   m_SchemaSet:

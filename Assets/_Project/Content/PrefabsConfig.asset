@@ -12,10 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7948d125126c34baecb4b3bf29612e, type: 3}
   m_Name: PrefabsConfig
   m_EditorClassIdentifier: Assembly-CSharp::PrefabsConfig
-  ShipPrefab: {fileID: 9119986189424803661, guid: a333f15630a4e1648aae3fe811233821, type: 3}
-  UFOPrefab: {fileID: 3073719931397446709, guid: 199a11bdacad7d444a56d22a65ac4a22, type: 3}
-  SmallAsteroidPrefab: {fileID: -8262947504558750225, guid: 318ff94c03b39404bb99a3a289bad817, type: 3}
-  BigAsteroidPrefab: {fileID: -4563810927153591638, guid: 5d80d877c663d964f95976d878eefab1, type: 3}
-  BulletPrefab: {fileID: -3375577332039476969, guid: 7889cb1b53ca8494cb0995811642a706, type: 3}
-  DebugViewPrefab: {fileID: 1684268177980643009, guid: dc2b7112a0663fb44a485aab593a14c5, type: 3}
-  FinalScoreViewPrefab: {fileID: 6090235523111283261, guid: 803be787222a7234597061101a9d572f, type: 3}
+  ShipPrefab:
+    m_AssetGUID: a333f15630a4e1648aae3fe811233821
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  UFOPrefab:
+    m_AssetGUID: 199a11bdacad7d444a56d22a65ac4a22
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  SmallAsteroidPrefab:
+    m_AssetGUID: 318ff94c03b39404bb99a3a289bad817
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  BigAsteroidPrefab:
+    m_AssetGUID: 5d80d877c663d964f95976d878eefab1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  BulletPrefab:
+    m_AssetGUID: 7889cb1b53ca8494cb0995811642a706
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  DebugViewPrefab:
+    m_AssetGUID: dc2b7112a0663fb44a485aab593a14c5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  FinalScoreViewPrefab:
+    m_AssetGUID: 803be787222a7234597061101a9d572f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

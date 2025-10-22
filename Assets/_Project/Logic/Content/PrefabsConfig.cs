@@ -1,18 +1,17 @@
-using Asteroids.Logic.Common.UI.Implementation;
-using Asteroids.Logic.Common.Units;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Asteroids.Logic.Content
 {
     [CreateAssetMenu(fileName = "PrefabsConfig", menuName = "Configs/PrefabsConfig")]
     public class PrefabsConfig : ScriptableObject
     {
-        [field: SerializeField] public UnitView ShipPrefab;
-        [field: SerializeField] public UnitView UFOPrefab;
-        [field: SerializeField] public UnitView SmallAsteroidPrefab;
-        [field: SerializeField] public UnitView BigAsteroidPrefab;
-        [field: SerializeField] public UnitView BulletPrefab;
-        [field: SerializeField] public DebugView DebugViewPrefab;
-        [field: SerializeField] public FinalScoreView FinalScoreViewPrefab;
+        [field: SerializeField] public AssetReference ShipPrefab;
+        [field: SerializeField] public AssetReference UFOPrefab;
+        [field: SerializeField] public AssetReference SmallAsteroidPrefab;
+        [field: SerializeField] public AssetReference BigAsteroidPrefab;
+        [field: SerializeField] public AssetReference BulletPrefab;
+        [field: SerializeField] public AssetReference DebugViewPrefab;
+        [field: SerializeField] public AssetReference FinalScoreViewPrefab;
     }
 }
