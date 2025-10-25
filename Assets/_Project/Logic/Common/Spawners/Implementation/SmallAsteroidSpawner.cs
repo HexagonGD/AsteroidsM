@@ -1,3 +1,4 @@
+using Asteroids.Logic.Common.Configs.Implementation;
 using Asteroids.Logic.Common.Services;
 using Asteroids.Logic.Common.Services.Factory.Implementation;
 using Asteroids.Logic.Common.Spawners.Core;

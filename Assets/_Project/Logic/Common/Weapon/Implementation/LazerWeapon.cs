@@ -1,3 +1,4 @@
+using Asteroids.Logic.Common.Configs.Implementation;
 using Asteroids.Logic.Common.Units;
 using Asteroids.Logic.Common.Units.Core;
 using Asteroids.Logic.Common.Units.Implementation;
