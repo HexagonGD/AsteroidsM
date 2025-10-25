@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -6,16 +7,17 @@ namespace Asteroids.Logic.Common.Services
 {
     public class LocalPrefabLoader
     {
-        private AsyncOperationHandle<GameObject> _handle;
+        private Dictionary<AssetReference, AsyncOperationHandle<GameObject>> _handlers = new();
 
         public T LoadInternal<T>(AssetReference reference)
         {
-            _handle = Addressables.LoadAssetAsync<GameObject>(reference);
-            _handle.WaitForCompletion();
+            var handle = Addressables.LoadAssetAsync<GameObject>(reference);
+            _handlers[reference] = handle;
+            handle.WaitForCompletion();
 
-            if (_handle.Status == AsyncOperationStatus.Succeeded)
+            if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                if (_handle.Result.TryGetComponent<T>(out var component) == false)
+                if (handle.Result.TryGetComponent<T>(out var component) == false)
                     throw new System.Exception($"Failed to get component {typeof(T)}");
                 return component;
             }
@@ -25,9 +27,20 @@ namespace Asteroids.Logic.Common.Services
             }
         }
 
-        public void ReleaseInternal()
+        public void ReleaseAll()
         {
-            Addressables.ReleaseInstance(_handle);
+            foreach (var handler in _handlers)
+                handler.Value.Release();
+            _handlers.Clear();
+        }
+
+        public void ReleaseInternal(AssetReference reference)
+        {
+            if (_handlers.ContainsKey(reference))
+            {
+                _handlers[reference].Release();
+                _handlers.Remove(reference);
+            }
         }
     }
 }
