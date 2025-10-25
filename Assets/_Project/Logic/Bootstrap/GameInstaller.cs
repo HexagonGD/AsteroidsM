@@ -25,6 +25,8 @@ using Asteroids.Logic.Analytics.Core;
 using Asteroids.Logic.Analytics.Implementation.UnitDiedListeners;
 using Asteroids.Logic.Analytics.Implementation.WeaponListeners;
 using Asteroids.Logic.Analytics.Implementation;
+using Asteroids.Logic.Remote;
+using Asteroids.Logic.Common.Configs.Implementation;
 
 namespace Asteroids.Logic.Bootstrap
 {
@@ -80,6 +82,7 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<BulletWeapon>().AsCached();
             Container.Bind<LazerWeapon>().AsCached();
 
+            Container.BindInterfacesAndSelfTo<RemoteConfigsLoader>().AsSingle().NonLazy();
             Container.BindInstances(_bulletWeaponConfig, _lazerWeaponConfig, _lazerPrefab, _lazerRendererConfig, _shipMovementConfig,
                                     _ufoSpawnerConfig, _smallAsteroidSpawnerConfig, _bigAsteroidSpawnerConfig);
             Container.QueueForInject(_bulletWeaponConfig);
@@ -90,6 +93,13 @@ namespace Asteroids.Logic.Bootstrap
             Container.QueueForInject(_ufoSpawnerConfig);
             Container.QueueForInject(_smallAsteroidSpawnerConfig);
             Container.QueueForInject(_bigAsteroidSpawnerConfig);
+
+            Container.Bind<IRemoteConfig>().To<BulletWeaponConfig>().FromResolve().AsCached();
+            Container.Bind<IRemoteConfig>().To<LazerWeaponConfig>().FromResolve().AsCached();
+            Container.Bind<IRemoteConfig>().To<UFOSpawnerConfig>().FromResolve().AsCached();
+            Container.Bind<IRemoteConfig>().To<SmallAsteroidSpawnerConfig>().FromResolve().AsCached();
+            Container.Bind<IRemoteConfig>().To<BigAsteroidSpawnerConfig>().FromResolve().AsCached();
+            Container.Bind<IRemoteConfig>().To<AccelerationMovementConfig>().FromResolve().AsCached();
 
             Container.Bind<ChangePositionOnOutsidePlayZone>().AsSingle().WithArguments<float>(3f);
             Container.Bind<CompositeUnitRepository>().AsSingle();

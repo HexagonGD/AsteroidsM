@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 
-namespace Asteroids.Logic.Common.Weapon.Implementation
+namespace Asteroids.Logic.Common.Configs.Implementation
 {
     [CreateAssetMenu(fileName = "LazerWeaponConfig", menuName = "Configs/LaserWeaponConfig")]
-    public class LazerWeaponConfig : ScriptableObject
+    public class LazerWeaponConfig : ScriptableObject, IRemoteConfig
     {
         [field: SerializeField, Min(0)] public int MaxCharges { get; private set; }
         [field: SerializeField, Min(0)] public int StartCharges { get; private set; }
         [field: SerializeField, Min(0)] public float ReloadChargeTime { get; private set; }
         [field: SerializeField, Min(0)] public float DelayBetweenShots { get; private set; }
         [field: SerializeField] public LayerMask LayerMask { get; private set; }
+
+        public string RemoteName => RemoteNames.LazerWeaponConfig;
     }
 }

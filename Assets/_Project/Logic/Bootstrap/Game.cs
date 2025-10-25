@@ -5,13 +5,17 @@ using Asteroids.Logic.Common.Units.Core;
 using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Weapon.Implementation;
 using Asteroids.Logic.FSMachine;
+using Asteroids.Logic.Remote;
+using R3;
+using System;
 using System.Linq;
 using UnityEngine;
 using Zenject;
+using Unit = Asteroids.Logic.Common.Units.Core.Unit;
 
 namespace Asteroids.Logic.Bootstrap
 {
-    public class Game : ITickable, IInitializable
+    public class Game : ITickable, IInitializable, IDisposable
     {
         private readonly CompositeUnitRepository _unitRepository;
         private readonly SpawnersController _enemyController;
@@ -19,9 +23,12 @@ namespace Asteroids.Logic.Bootstrap
         private readonly CompositeUnit _ship;
         private readonly FSM _fsm;
         private readonly Score _score;
+        private readonly RemoteConfigsLoader _remoteConfigsLoader;
+
+        private IDisposable _disposable;
 
         public Game(CompositeUnitRepository unitRepository, SpawnersController enemyController,
-                    Arsenal arsenal, Ship ship, UnitView shipView, FSM fsm, Score score)
+                    Arsenal arsenal, Ship ship, UnitView shipView, FSM fsm, Score score, RemoteConfigsLoader remoteConfigsLoader)
         {
             _unitRepository = unitRepository;
             _enemyController = enemyController;
@@ -29,14 +36,15 @@ namespace Asteroids.Logic.Bootstrap
             _ship = new CompositeUnit(ship, shipView);
             _fsm = fsm;
             _score = score;
+            _remoteConfigsLoader = remoteConfigsLoader;
         }
 
         public void Initialize()
         {
+            _disposable = _remoteConfigsLoader.ConfigsLoaded.Where(x => x).Subscribe(x => ConfigsLoaderCompleteLoaded(x));
             _unitRepository.OnUnitRegistered += UnitRegisteredHandler;
             _unitRepository.Ship = _ship;
             _fsm.OnStateChanged += StateChangedHandler;
-            _fsm.SwitchState(StateEnum.Play);
         }
 
         public void Tick()
@@ -48,6 +56,12 @@ namespace Asteroids.Logic.Bootstrap
                     unit.Update(Time.deltaTime);
                 _arsenal.Update(Time.deltaTime);
             }
+        }
+
+        private void ConfigsLoaderCompleteLoaded(bool result)
+        {
+            _disposable.Dispose();
+            _fsm.SwitchState(StateEnum.Play);
         }
 
         private void UnitRegisteredHandler(CompositeUnit unit)
@@ -87,6 +101,11 @@ namespace Asteroids.Logic.Bootstrap
         {
             _ship.Unit.OnDied -= ShipDiedHandler;
             _fsm.SwitchState(StateEnum.Score);
+        }
+
+        public void Dispose()
+        {
+            _disposable.Dispose();
         }
     }
 }
