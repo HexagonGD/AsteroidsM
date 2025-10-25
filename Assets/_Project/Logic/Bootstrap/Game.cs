@@ -41,10 +41,11 @@ namespace Asteroids.Logic.Bootstrap
 
         public void Initialize()
         {
-            _disposable = _remoteConfigsLoader.ConfigsLoaded.Where(x => x).Subscribe(x => ConfigsLoaderCompleteLoaded(x));
             _unitRepository.OnUnitRegistered += UnitRegisteredHandler;
             _unitRepository.Ship = _ship;
+
             _fsm.OnStateChanged += StateChangedHandler;
+            _disposable = _remoteConfigsLoader.ConfigsLoaded.Where(x => x).Subscribe(x => ConfigsLoaderCompleteLoaded(x));
         }
 
         public void Tick()
