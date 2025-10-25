@@ -7,12 +7,14 @@ namespace Asteroids.Logic.Common.UI.Core
     {
         private readonly DebugView _debugView;
         private readonly FinalScoreView _finalScoreView;
+        private readonly RebirthView _rebirthView;
         private readonly FSM _fsm;
 
-        public UISwitcher(DebugView debugView, FinalScoreView finalScoreView, FSM fsm)
+        public UISwitcher(DebugView debugView, FinalScoreView finalScoreView, RebirthView rebirthView, FSM fsm)
         {
             _debugView = debugView;
             _finalScoreView = finalScoreView;
+            _rebirthView = rebirthView;
             _fsm = fsm;
 
             _fsm.OnStateChanged += StateChangedHandler;
@@ -24,11 +26,20 @@ namespace Asteroids.Logic.Common.UI.Core
             {
                 _debugView.Show();
                 _finalScoreView.Hide();
+                _rebirthView.Hide();
+
             }
-            else
+            else if(state == StateEnum.Rebirth)
+            {
+                _debugView.Hide();
+                _finalScoreView.Hide();
+                _rebirthView.Show();
+            }
+            else if(state == StateEnum.Score)
             {
                 _debugView.Hide();
                 _finalScoreView.Show();
+                _rebirthView.Hide();
             }
         }
     }
