@@ -1,14 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
 
 namespace Asteroids.Logic.Common.Configs.Implementation
 {
-    [CreateAssetMenu(fileName = "AccelerationMovementConfig", menuName = "Configs/AccelerationMovementConfig")]
-    public class AccelerationMovementConfig : ScriptableObject, IRemoteConfig
+    public class AccelerationMovementConfig : IRemoteConfig
     {
-        [field: SerializeField, Min(0)] public float IncreaseVelocity { get; private set; }
-        [field: SerializeField, Min(0)] public float DecreaseVelocity { get; private set; }
-        [field: SerializeField, Min(0)] public float MaxVelocity { get; private set; }
-        [field: SerializeField, Min(0)] public float RotateSpeed { get; private set; }
+        public float IncreaseVelocity;
+        public float DecreaseVelocity;
+        public float MaxVelocity;
+        public float RotateSpeed;
 
         public string RemoteName => RemoteNames.ShipMovementConfig;
     }

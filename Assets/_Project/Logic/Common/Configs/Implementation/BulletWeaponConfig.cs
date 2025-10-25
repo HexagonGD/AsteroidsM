@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
 
 namespace Asteroids.Logic.Common.Configs.Implementation
 {
-    [CreateAssetMenu(fileName = "BulletWeaponConfig", menuName = "Configs/BulletWeaponConfig")]
-    public class BulletWeaponConfig : ScriptableObject, IRemoteConfig
+    public class BulletWeaponConfig : IRemoteConfig
     {
         public float ReloadTime;
         public float BulletSpeed;

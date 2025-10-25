@@ -1,15 +1,17 @@
 ﻿using Asteroids.Logic.Common.Configs.Core;
-using UnityEngine;
+using System;
 
 namespace Asteroids.Logic.Common.Configs.Implementation
 {
-    [CreateAssetMenu(fileName = "BigAsteroidSpawnerConfig", menuName = "Configs/BigAsteroidSpawnerConfig")]
-    public class BigAsteroidSpawnerConfig : ScriptableObject, IRemoteConfig, ILoopTimerSpawnerConfig
+    public class BigAsteroidSpawnerConfig : IRemoteConfig, ILoopTimerSpawnerConfig
     {
-        [field: SerializeField] public float TimeForSpawn { get; private set; }
-        [field: SerializeField] public float AccumulatedTime { get; private set; }
-        [field: SerializeField] public float Speed { get; private set; }
+        public float TimeForSpawn;
+        public float AccumulatedTime;
+        public float Speed;
 
+
+        float ILoopTimerSpawnerConfig.TimeForSpawn => TimeForSpawn;
+        float ILoopTimerSpawnerConfig.AccumulatedTime => AccumulatedTime;
         public string RemoteName => RemoteNames.BigAsteroidSpawnerConfig;
     }
 }

@@ -1,13 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
 
 namespace Asteroids.Logic.Common.Configs.Implementation
 {
-    [CreateAssetMenu(fileName = "SmallAsteroidSpawnerConfig", menuName = "Configs/SmallAsteroidSpawnerConfig")]
-    public class SmallAsteroidSpawnerConfig : ScriptableObject, IRemoteConfig
+    public class SmallAsteroidSpawnerConfig : IRemoteConfig
     {
-        [field: SerializeField] public int CountChildren { get; private set; }
-        [field: SerializeField] public float SpeedCoef { get; private set; }
-        [field: SerializeField] public float DeviationDegrees { get; private set; }
+        public int CountChildren;
+        public float SpeedCoef;
+        public float DeviationDegrees;
 
         public string RemoteName => RemoteNames.SmallAsteroidSpawnerConfig;
     }
