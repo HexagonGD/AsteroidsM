@@ -49,6 +49,7 @@ namespace Asteroids.Logic.Bootstrap
         [Header("Prefabs")]
         [SerializeField] private PrefabsConfig _prefabsConfig;
         [SerializeField] private LineRenderer _lazerPrefab;
+        [SerializeField] private UnityAdsProvider _adsProviderPrefab;
 
         private LocalPrefabLoader[] _loaders;
 
@@ -56,13 +57,14 @@ namespace Asteroids.Logic.Bootstrap
         {
             var debugViewLoader = new LocalPrefabLoader();
             var finalScoreViewLoader = new LocalPrefabLoader();
+            var rebirthViewLoader = new LocalPrefabLoader();
             var shipLoader = new LocalPrefabLoader();
             var bulletLoader = new LocalPrefabLoader();
             var ufoLoader = new LocalPrefabLoader();
             var smallAsteroidLoader = new LocalPrefabLoader();
             var bigAsteroidLoader = new LocalPrefabLoader();
 
-            _loaders = new[] { debugViewLoader, finalScoreViewLoader, shipLoader, bulletLoader, ufoLoader, smallAsteroidLoader, bigAsteroidLoader };
+            _loaders = new[] { debugViewLoader, finalScoreViewLoader, rebirthViewLoader, shipLoader, bulletLoader, ufoLoader, smallAsteroidLoader, bigAsteroidLoader };
 
             Container.Bind<PlayZone>().AsSingle().WithArguments(_camera);
             Container.Bind<SpawnersController>().AsSingle();
@@ -71,11 +73,14 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<FSM>().AsSingle();
             Container.Bind<Score>().AsSingle();
             Container.Bind<ISaveManager>().To<PlayerPrefsSaveManager>().AsSingle();
+
             Container.Bind<DebugViewModel>().AsSingle();
             Container.Bind<FinalScoreViewModel>().AsSingle();
-            var debugView = debugViewLoader.LoadInternal<DebugView>(_prefabsConfig.DebugViewPrefab);
-            Container.Bind<DebugView>().FromComponentInNewPrefab(debugView).UnderTransform(_canvas.transform).AsSingle();
+            Container.BindInterfacesAndSelfTo<RebirthViewModel>().AsSingle();
+
+            Container.Bind<DebugView>().FromComponentInNewPrefab(debugViewLoader.LoadInternal<DebugView>(_prefabsConfig.DebugViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
             Container.Bind<FinalScoreView>().FromComponentInNewPrefab(finalScoreViewLoader.LoadInternal<FinalScoreView>(_prefabsConfig.FinalScoreViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
+            Container.BindInterfacesAndSelfTo<RebirthView>().FromComponentInNewPrefab(rebirthViewLoader.LoadInternal<RebirthView>(_prefabsConfig.RebirthViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
 
             Container.Bind<IWeapon>().WithId("first").To<BulletWeapon>().FromResolve().AsCached();
             Container.Bind<IWeapon>().WithId("second").To<LazerWeapon>().FromResolve().AsCached();
@@ -145,13 +150,14 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<IAnalyticListener>().To<StartGameAnalyticListener>().AsSingle();
             Container.Bind<IAnalyticListener>().To<EndGameAnalyticListener>().AsSingle();
             Container.Bind<IAnalytic>().To<FirebaseAdapter>().AsSingle();
-            Container.Bind<AnalyticManager>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AnalyticManager>().AsSingle().NonLazy();
         }
 
         private void BindAds()
         {
-            Container.Bind<AdsController>();
-            Container.Bind<IAdsProvider>().To<TestAdsProvider>();
+            Container.BindInterfacesAndSelfTo<AdsController>().AsSingle();
+            //Container.Bind<IAdsProvider>().To<TestAdsProvider>().AsSingle();
+            Container.Bind<IAdsProvider>().To<UnityAdsProvider>().FromComponentInNewPrefab(_adsProviderPrefab).AsSingle();
         }
 
         private void OnDestroy()

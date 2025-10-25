@@ -13,5 +13,6 @@ namespace Asteroids.Logic.Content
         [field: SerializeField] public AssetReference BulletPrefab;
         [field: SerializeField] public AssetReference DebugViewPrefab;
         [field: SerializeField] public AssetReference FinalScoreViewPrefab;
+        [field: SerializeField] public AssetReference RebirthViewPrefab;
     }
 }

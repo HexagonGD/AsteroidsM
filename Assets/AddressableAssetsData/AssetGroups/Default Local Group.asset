@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 516e1fd1769ba774abc8da50e398e746
+    m_Address: Assets/_Project/Prefabs/RebirthView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5d80d877c663d964f95976d878eefab1
     m_Address: Assets/_Project/Prefabs/Asteroid.prefab
     m_ReadOnly: 0
