@@ -19,7 +19,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
 
         public void RestartButtonClickedHandler()
         {
-            _fsm.SwitchState(StateEnum.Play);
+            _fsm.SwitchState(StateEnum.Run);
         }
     }
 }
