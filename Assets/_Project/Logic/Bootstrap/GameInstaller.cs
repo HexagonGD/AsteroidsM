@@ -48,20 +48,10 @@ namespace Asteroids.Logic.Bootstrap
         [SerializeField] private PrefabsConfig _prefabsConfig;
         [SerializeField] private LineRenderer _lazerPrefab;
 
-        private LocalPrefabLoader[] _loaders;
+        private LocalPrefabLoader _loader = new();
 
         public override void InstallBindings()
         {
-            var debugViewLoader = new LocalPrefabLoader();
-            var finalScoreViewLoader = new LocalPrefabLoader();
-            var shipLoader = new LocalPrefabLoader();
-            var bulletLoader = new LocalPrefabLoader();
-            var ufoLoader = new LocalPrefabLoader();
-            var smallAsteroidLoader = new LocalPrefabLoader();
-            var bigAsteroidLoader = new LocalPrefabLoader();
-
-            _loaders = new[] { debugViewLoader, finalScoreViewLoader, shipLoader, bulletLoader, ufoLoader, smallAsteroidLoader, bigAsteroidLoader };
-
             Container.BindInterfacesAndSelfTo<PlayZone>().AsSingle().WithArguments(_camera);
             Container.BindInterfacesAndSelfTo<SpawnersController>().AsSingle();
             Container.BindInterfacesAndSelfTo<Arsenal>().AsSingle();
@@ -71,9 +61,8 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<ISaveManager>().To<PlayerPrefsSaveManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<DebugViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<FinalScoreViewModel>().AsSingle();
-            var debugView = debugViewLoader.LoadInternal<DebugView>(_prefabsConfig.DebugViewPrefab);
-            Container.BindInterfacesAndSelfTo<DebugView>().FromComponentInNewPrefab(debugView).UnderTransform(_canvas.transform).AsSingle();
-            Container.BindInterfacesAndSelfTo<FinalScoreView>().FromComponentInNewPrefab(finalScoreViewLoader.LoadInternal<FinalScoreView>(_prefabsConfig.FinalScoreViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
+            Container.BindInterfacesAndSelfTo<DebugView>().FromComponentInNewPrefab(_loader.LoadInternal<DebugView>(_prefabsConfig.DebugViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
+            Container.BindInterfacesAndSelfTo<FinalScoreView>().FromComponentInNewPrefab(_loader.LoadInternal<FinalScoreView>(_prefabsConfig.FinalScoreViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
 
             Container.Bind<IWeapon>().WithId("first").To<BulletWeapon>().FromResolve().AsCached();
             Container.Bind<IWeapon>().WithId("second").To<LazerWeapon>().FromResolve().AsCached();
@@ -118,11 +107,11 @@ namespace Asteroids.Logic.Bootstrap
             Container.BindFactory<Unit, Unit.Factory>().To<SmallAsteroid>().WhenInjectedInto<SmallAsteroidSpawner>();
             Container.BindFactory<Unit, Unit.Factory>().To<BigAsteroid>().WhenInjectedInto<BigAsteroidSpawner>();
 
-            Container.BindInterfacesAndSelfTo<UnitView>().FromComponentInNewPrefab(shipLoader.LoadInternal<UnitView>(_prefabsConfig.ShipPrefab)).AsSingle().WhenInjectedInto<Game>();
-            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(bulletLoader.LoadInternal<UnitView>(_prefabsConfig.BulletPrefab)).UnderTransformGroup("Bullets").WhenInjectedInto<BulletWeapon>();
-            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(ufoLoader.LoadInternal<UnitView>(_prefabsConfig.UFOPrefab)).UnderTransformGroup("UFO").WhenInjectedInto<UFOSpawner>();
-            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(smallAsteroidLoader.LoadInternal<UnitView>(_prefabsConfig.SmallAsteroidPrefab)).UnderTransformGroup("SmallAsteroids").WhenInjectedInto<SmallAsteroidSpawner>();
-            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(bigAsteroidLoader.LoadInternal<UnitView>(_prefabsConfig.BigAsteroidPrefab)).UnderTransformGroup("BigAsteroids").WhenInjectedInto<BigAsteroidSpawner>();
+            Container.BindInterfacesAndSelfTo<UnitView>().FromComponentInNewPrefab(_loader.LoadInternal<UnitView>(_prefabsConfig.ShipPrefab)).AsSingle().WhenInjectedInto<Game>();
+            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(_loader.LoadInternal<UnitView>(_prefabsConfig.BulletPrefab)).UnderTransformGroup("Bullets").WhenInjectedInto<BulletWeapon>();
+            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(_loader.LoadInternal<UnitView>(_prefabsConfig.UFOPrefab)).UnderTransformGroup("UFO").WhenInjectedInto<UFOSpawner>();
+            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(_loader.LoadInternal<UnitView>(_prefabsConfig.SmallAsteroidPrefab)).UnderTransformGroup("SmallAsteroids").WhenInjectedInto<SmallAsteroidSpawner>();
+            Container.BindFactory<UnitView, UnitView.Factory>().FromComponentInNewPrefab(_loader.LoadInternal<UnitView>(_prefabsConfig.BigAsteroidPrefab)).UnderTransformGroup("BigAsteroids").WhenInjectedInto<BigAsteroidSpawner>();
 
             Container.BindInterfacesAndSelfTo<UISwitcher>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<Game>().AsSingle().NonLazy();
@@ -147,8 +136,7 @@ namespace Asteroids.Logic.Bootstrap
 
         private void OnDestroy()
         {
-            foreach (var loader in _loaders)
-                loader.ReleaseInternal();
+            _loader.ReleaseAll();
         }
     }
 }
