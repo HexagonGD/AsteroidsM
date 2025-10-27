@@ -29,7 +29,7 @@ namespace Asteroids.Logic.Bootstrap
         
         public bool RebirthAvailable { get; private set; }
 
-        public Game(CompositeUnitRepository unitRepository, SpawnersController enemyController,
+        public Game(CompositeUnitRepository unitRepository, SpawnersController spawnersController,
                     Arsenal arsenal, Ship ship, UnitView shipView, FSM fsm, Score score, RemoteConfigsLoader remoteConfigsLoader)
         {
             _unitRepository = unitRepository;
