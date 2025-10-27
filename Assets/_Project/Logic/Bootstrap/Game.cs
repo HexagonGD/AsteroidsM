@@ -5,13 +5,17 @@ using Asteroids.Logic.Common.Units.Core;
 using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Weapon.Implementation;
 using Asteroids.Logic.FSMachine;
+using Asteroids.Logic.Remote;
+using R3;
+using System;
 using System.Linq;
 using UnityEngine;
 using Zenject;
+using Unit = Asteroids.Logic.Common.Units.Core.Unit;
 
 namespace Asteroids.Logic.Bootstrap
 {
-    public class Game : ITickable, IInitializable
+    public class Game : ITickable, IInitializable, IDisposable
     {
         private readonly CompositeUnitRepository _unitRepository;
         private readonly SpawnersController _spawnersController;
@@ -19,11 +23,14 @@ namespace Asteroids.Logic.Bootstrap
         private readonly CompositeUnit _ship;
         private readonly FSM _fsm;
         private readonly Score _score;
+        private readonly RemoteConfigsLoader _remoteConfigsLoader;
 
+        private IDisposable _disposable;
+        
         public bool RebirthAvailable { get; private set; }
 
-        public Game(CompositeUnitRepository unitRepository, SpawnersController spawnersController,
-                    Arsenal arsenal, Ship ship, UnitView shipView, FSM fsm, Score score)
+        public Game(CompositeUnitRepository unitRepository, SpawnersController enemyController,
+                    Arsenal arsenal, Ship ship, UnitView shipView, FSM fsm, Score score, RemoteConfigsLoader remoteConfigsLoader)
         {
             _unitRepository = unitRepository;
             _spawnersController = spawnersController;
@@ -31,15 +38,16 @@ namespace Asteroids.Logic.Bootstrap
             _ship = new CompositeUnit(ship, shipView);
             _fsm = fsm;
             _score = score;
+            _remoteConfigsLoader = remoteConfigsLoader;
         }
 
         public void Initialize()
         {
             _unitRepository.OnUnitRegistered += UnitRegisteredHandler;
             _unitRepository.Ship = _ship;
-            _ship.Unit.OnDied += ShipDiedHandler;
+
             _fsm.OnStateChanged += StateChangedHandler;
-            _fsm.SwitchState(StateEnum.Run);
+            _disposable = _remoteConfigsLoader.ConfigsLoaded.Where(x => x).Subscribe(x => ConfigsLoaderCompleteLoaded(x));
         }
 
         public void Tick()
@@ -53,6 +61,12 @@ namespace Asteroids.Logic.Bootstrap
             }
         }
 
+        private void ConfigsLoaderCompleteLoaded(bool result)
+        {
+            _disposable.Dispose();
+            _fsm.SwitchState(StateEnum.Play);
+        }
+        
         public void Rebirth()
         {
             _spawnersController.Clear();
@@ -112,6 +126,11 @@ namespace Asteroids.Logic.Bootstrap
                     _fsm.SwitchState(StateEnum.Score);
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            _disposable.Dispose();
         }
     }
 }

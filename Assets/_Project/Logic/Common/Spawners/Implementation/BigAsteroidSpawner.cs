@@ -1,3 +1,4 @@
+using Asteroids.Logic.Common.Configs.Implementation;
 using Asteroids.Logic.Common.Movement.Core;
 using Asteroids.Logic.Common.Services;
 using Asteroids.Logic.Common.Units;
@@ -15,7 +16,7 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
 
         public BigAsteroidSpawner(PlayZone playZone, CompositeUnitRepository unitRepository,
                                   ChangePositionOnOutsidePlayZone spawnPosition, BigAsteroidSpawnerConfig config, Unit.Factory unitFactory, UnitView.Factory unitViewFactory) :
-                             base(unitRepository, unitFactory, unitViewFactory, config.TimeForSpawn, config.AccumulatedTime)
+                             base(unitRepository, unitFactory, unitViewFactory, config)
         {
             _playZone = playZone;
             _spawnPosition = spawnPosition;
