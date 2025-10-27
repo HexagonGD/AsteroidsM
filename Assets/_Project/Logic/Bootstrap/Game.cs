@@ -132,5 +132,12 @@ namespace Asteroids.Logic.Bootstrap
         {
             _disposable.Dispose();
         }
+
+        public void Dispose()
+        {
+            _unitRepository.OnUnitRegistered -= UnitRegisteredHandler;
+            _ship.Unit.OnDied -= ShipDiedHandler;
+            _fsm.OnStateChanged -= StateChangedHandler;
+        }
     }
 }

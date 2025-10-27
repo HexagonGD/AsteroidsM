@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Asteroids.Logic.Common.Spawners.Implementation
 {
-    public partial class SmallAsteroidSpawner : ISpawner<CompositeUnit>
+    public partial class SmallAsteroidSpawner : ISpawner<CompositeUnit>, IDisposable
     {
         public event Action<CompositeUnit> OnSpawned;
 
@@ -67,6 +67,11 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
             _factory.Release(_units[index]);
             _unitRepository.Unregister(_units[index]);
             _units.RemoveAt(index);
+        }
+
+        public void Dispose()
+        {
+            Clear();
         }
     }
 }
