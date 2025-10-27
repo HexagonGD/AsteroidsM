@@ -4,7 +4,7 @@ using System;
 
 namespace Asteroids.Logic.Common.Spawners.Implementation
 {
-    public abstract class LoopTimerSpawner<T> : ISpawner<T>
+    public abstract class LoopTimerSpawner<T> : ISpawner<T>, IDisposable
     {
         public event Action<T> OnSpawned;
 
@@ -40,5 +40,11 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
         }
 
         protected abstract T SpawnHandler();
+
+        public virtual void Dispose()
+        {
+            if (_timer != null)
+                _timer.OnLoop -= Spawn;
+        }
     }
 }

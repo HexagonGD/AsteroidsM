@@ -5,13 +5,14 @@ using Asteroids.Logic.Common.Units.Core;
 using Asteroids.Logic.Common.Units.Implementation;
 using Asteroids.Logic.Common.Weapon.Implementation;
 using Asteroids.Logic.FSMachine;
+using System;
 using System.Linq;
 using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Logic.Bootstrap
 {
-    public class Game : ITickable, IInitializable
+    public class Game : ITickable, IInitializable, IDisposable
     {
         private readonly CompositeUnitRepository _unitRepository;
         private readonly SpawnersController _enemyController;
@@ -87,6 +88,13 @@ namespace Asteroids.Logic.Bootstrap
         {
             _ship.Unit.OnDied -= ShipDiedHandler;
             _fsm.SwitchState(StateEnum.Score);
+        }
+
+        public void Dispose()
+        {
+            _unitRepository.OnUnitRegistered -= UnitRegisteredHandler;
+            _ship.Unit.OnDied -= ShipDiedHandler;
+            _fsm.OnStateChanged -= StateChangedHandler;
         }
     }
 }

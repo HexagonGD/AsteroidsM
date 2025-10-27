@@ -6,8 +6,8 @@ namespace Asteroids.Logic.Common.UI.Implementation
 {
     public class FinalScoreViewModel
     {
-        public ReadOnlyReactiveProperty<int> Score;
-        public ReadOnlyReactiveProperty<int> BestScore;
+        public ReadOnlyReactiveProperty<int> Score { get; private set; }
+        public ReadOnlyReactiveProperty<int> BestScore { get; private set; }
         private FSM _fsm;
 
         public FinalScoreViewModel(Score score, FSM fsm)

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Asteroids.Logic.Common.Services
 {
-    public class SpawnersController
+    public class SpawnersController : IDisposable
     {
         public event Action<Unit> OnSpawnedUnit;
 
@@ -37,6 +37,12 @@ namespace Asteroids.Logic.Common.Services
         private void SpawnedHandler(CompositeUnit unit)
         {
             OnSpawnedUnit?.Invoke(unit.Unit);
+        }
+
+        public void Dispose()
+        {
+            foreach (var spawner in _spawners)
+                spawner.OnSpawned -= SpawnedHandler;
         }
     }
 }
