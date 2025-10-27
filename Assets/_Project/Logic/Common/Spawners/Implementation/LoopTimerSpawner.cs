@@ -15,7 +15,6 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
         public LoopTimerSpawner(ILoopTimerSpawnerConfig config)
         {
             _config = config;
-            Clear();
         }
 
         public void Update(float deltaTime)

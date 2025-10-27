@@ -58,9 +58,10 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<ISaveManager>().To<PlayerPrefsSaveManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<DebugViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<FinalScoreViewModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<RebirthViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<DebugView>().FromComponentInNewPrefab(_loader.LoadInternal<DebugView>(_prefabsConfig.DebugViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
             Container.BindInterfacesAndSelfTo<FinalScoreView>().FromComponentInNewPrefab(_loader.LoadInternal<FinalScoreView>(_prefabsConfig.FinalScoreViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
-            Container.BindInterfacesAndSelfTo<RebirthView>().FromComponentInNewPrefab(rebirthViewLoader.LoadInternal<RebirthView>(_prefabsConfig.RebirthViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
+            Container.BindInterfacesAndSelfTo<RebirthView>().FromComponentInNewPrefab(_loader.LoadInternal<RebirthView>(_prefabsConfig.RebirthViewPrefab)).UnderTransform(_canvas.transform).AsSingle();
 
             Container.Bind<IWeapon>().WithId("first").To<BulletWeapon>().FromResolve().AsCached();
             Container.Bind<IWeapon>().WithId("second").To<LazerWeapon>().FromResolve().AsCached();

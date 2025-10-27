@@ -45,6 +45,7 @@ namespace Asteroids.Logic.Bootstrap
         {
             _unitRepository.OnUnitRegistered += UnitRegisteredHandler;
             _unitRepository.Ship = _ship;
+            _ship.Unit.OnDied += ShipDiedHandler;
 
             _fsm.OnStateChanged += StateChangedHandler;
             _disposable = _remoteConfigsLoader.ConfigsLoaded.Where(x => x).Subscribe(x => ConfigsLoaderCompleteLoaded(x));
@@ -64,7 +65,7 @@ namespace Asteroids.Logic.Bootstrap
         private void ConfigsLoaderCompleteLoaded(bool result)
         {
             _disposable.Dispose();
-            _fsm.SwitchState(StateEnum.Play);
+            _fsm.SwitchState(StateEnum.Run);
         }
         
         public void Rebirth()
@@ -131,10 +132,6 @@ namespace Asteroids.Logic.Bootstrap
         public void Dispose()
         {
             _disposable.Dispose();
-        }
-
-        public void Dispose()
-        {
             _unitRepository.OnUnitRegistered -= UnitRegisteredHandler;
             _ship.Unit.OnDied -= ShipDiedHandler;
             _fsm.OnStateChanged -= StateChangedHandler;

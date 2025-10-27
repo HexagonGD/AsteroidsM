@@ -22,16 +22,8 @@ namespace Asteroids.Logic.Remote
 
         public void Initialize()
         {
-            var dict = new Dictionary<string, object>();
-            foreach (var config in _configs)
-            {
-                Debug.Log(JsonUtility.ToJson(config));
-                dict[config.RemoteName] = JsonUtility.ToJson(config);
-            }
-
-            FirebaseRemoteConfig.DefaultInstance.SetDefaultsAsync(dict).AsUniTask().ContinueWith(() =>
             FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero).AsUniTask().ContinueWith(() =>
-            FirebaseRemoteConfig.DefaultInstance.ActivateAsync().AsUniTask().ContinueWith(ActivateCompletedHandler))).Forget();
+            FirebaseRemoteConfig.DefaultInstance.ActivateAsync().AsUniTask().ContinueWith(ActivateCompletedHandler)).Forget();
         }
 
         private void ActivateCompletedHandler(bool result)
