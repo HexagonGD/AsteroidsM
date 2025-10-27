@@ -18,7 +18,7 @@ namespace Asteroids.Logic.Bootstrap
     public class Game : ITickable, IInitializable, IDisposable
     {
         private readonly CompositeUnitRepository _unitRepository;
-        private readonly SpawnersController _enemyController;
+        private readonly SpawnersController _spawnersController;
         private readonly Arsenal _arsenal;
         private readonly CompositeUnit _ship;
         private readonly FSM _fsm;
@@ -26,12 +26,14 @@ namespace Asteroids.Logic.Bootstrap
         private readonly RemoteConfigsLoader _remoteConfigsLoader;
 
         private IDisposable _disposable;
+        
+        public bool RebirthAvailable { get; private set; }
 
         public Game(CompositeUnitRepository unitRepository, SpawnersController enemyController,
                     Arsenal arsenal, Ship ship, UnitView shipView, FSM fsm, Score score, RemoteConfigsLoader remoteConfigsLoader)
         {
             _unitRepository = unitRepository;
-            _enemyController = enemyController;
+            _spawnersController = spawnersController;
             _arsenal = arsenal;
             _ship = new CompositeUnit(ship, shipView);
             _fsm = fsm;
@@ -52,7 +54,7 @@ namespace Asteroids.Logic.Bootstrap
         {
             if (_fsm.State == StateEnum.Play)
             {
-                _enemyController.Update(Time.deltaTime);
+                _spawnersController.Update(Time.deltaTime);
                 foreach (var unit in _unitRepository.Units.ToArray())
                     unit.Update(Time.deltaTime);
                 _arsenal.Update(Time.deltaTime);
@@ -64,6 +66,18 @@ namespace Asteroids.Logic.Bootstrap
             _disposable.Dispose();
             _fsm.SwitchState(StateEnum.Play);
         }
+        
+        public void Rebirth()
+        {
+            _spawnersController.Clear();
+            _fsm.SwitchState(StateEnum.Play);
+            RebirthAvailable = false;
+        }
+
+        public void Complete()
+        {
+            _fsm.SwitchState(StateEnum.Score);
+        }
 
         private void UnitRegisteredHandler(CompositeUnit unit)
         {
@@ -72,7 +86,7 @@ namespace Asteroids.Logic.Bootstrap
 
         private void StateChangedHandler(StateEnum state)
         {
-            if (state == StateEnum.Play)
+            if (state == StateEnum.Run)
                 RunGame();
         }
 
@@ -80,7 +94,8 @@ namespace Asteroids.Logic.Bootstrap
         {
             Clear();
 
-            _ship.Unit.OnDied += ShipDiedHandler;
+            RebirthAvailable = true;
+            _fsm.SwitchState(StateEnum.Play);
         }
 
         private void EnemyDiedHandler(Unit unit, bool real)
@@ -93,15 +108,24 @@ namespace Asteroids.Logic.Bootstrap
         private void Clear()
         {
             _score.Current.Value = 0;
-            _enemyController.Clear();
+            _spawnersController.Clear();
             _arsenal.Clear();
             _ship.Unit.Data = new TransformData();
         }
 
         private void ShipDiedHandler(Unit unit, bool real)
         {
-            _ship.Unit.OnDied -= ShipDiedHandler;
-            _fsm.SwitchState(StateEnum.Score);
+            if (_fsm.State == StateEnum.Play)
+            {
+                if (RebirthAvailable)
+                {
+                    _fsm.SwitchState(StateEnum.Rebirth);
+                }
+                else
+                {
+                    _fsm.SwitchState(StateEnum.Score);
+                }
+            }
         }
 
         public void Dispose()
