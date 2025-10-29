@@ -1,8 +1,10 @@
+using Asteroids.Logic.Common.Configs.Core;
 using Asteroids.Logic.Common.Movement.Core;
 using Asteroids.Logic.Common.Services;
 using Asteroids.Logic.Common.Services.Factory.Implementation;
 using Asteroids.Logic.Common.Units;
 using Asteroids.Logic.Common.Units.Core;
+using System;
 using System.Collections.Generic;
 
 namespace Asteroids.Logic.Common.Spawners.Implementation
@@ -13,8 +15,8 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
         private readonly CompositeFactory _factory;
         protected readonly List<CompositeUnit> _units = new();
 
-        public SimpleSpawner(CompositeUnitRepository unitRepository, Unit.Factory unitFactory, UnitView.Factory unitViewFactory, float timeForSpawn, float accumulatedTime) :
-                             base(timeForSpawn, accumulatedTime)
+        public SimpleSpawner(CompositeUnitRepository unitRepository, Unit.Factory unitFactory, UnitView.Factory unitViewFactory, ILoopTimerSpawnerConfig config) :
+                             base(config)
         {
             _unitRepository = unitRepository;
             _factory = new CompositeFactory(unitFactory, unitViewFactory);
@@ -54,6 +56,12 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
             _factory.Release(_units[index]);
             _unitRepository.Unregister(_units[index]);
             _units.RemoveAt(index);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            Clear();
         }
     }
 }

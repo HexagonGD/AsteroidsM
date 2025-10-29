@@ -1,23 +1,20 @@
+using Asteroids.Logic.Common.Configs.Core;
 using Asteroids.Logic.Common.Services;
 using Asteroids.Logic.Common.Spawners.Core;
 using System;
 
 namespace Asteroids.Logic.Common.Spawners.Implementation
 {
-    public abstract class LoopTimerSpawner<T> : ISpawner<T>
+    public abstract class LoopTimerSpawner<T> : ISpawner<T>, IDisposable
     {
         public event Action<T> OnSpawned;
 
-        private readonly float _timeForSpawn;
-        private readonly float _accumulatedTime;
+        private readonly ILoopTimerSpawnerConfig _config;
         private LoopTimer _timer;
 
-        public LoopTimerSpawner(float timeForSpawn, float accumulatedTime)
+        public LoopTimerSpawner(ILoopTimerSpawnerConfig config)
         {
-            _timeForSpawn = timeForSpawn;
-            _accumulatedTime = accumulatedTime;
-
-            Clear();
+            _config = config;
         }
 
         public void Update(float deltaTime)
@@ -29,7 +26,7 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
         {
             if (_timer != null)
                 _timer.OnLoop -= Spawn;
-            _timer = new LoopTimer(_timeForSpawn, _accumulatedTime);
+            _timer = new LoopTimer(_config.TimeForSpawn, _config.AccumulatedTime);
             _timer.OnLoop += Spawn;
         }
 
@@ -40,5 +37,11 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
         }
 
         protected abstract T SpawnHandler();
+
+        public virtual void Dispose()
+        {
+            if (_timer != null)
+                _timer.OnLoop -= Spawn;
+        }
     }
 }

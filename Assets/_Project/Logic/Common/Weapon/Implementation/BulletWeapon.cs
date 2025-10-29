@@ -1,3 +1,4 @@
+using Asteroids.Logic.Common.Configs.Implementation;
 using Asteroids.Logic.Common.Movement.Core;
 using Asteroids.Logic.Common.Services.Factory.Implementation;
 using Asteroids.Logic.Common.Units;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace Asteroids.Logic.Common.Weapon.Implementation
 {
-    public partial class BulletWeapon : IWeapon
+    public partial class BulletWeapon : IWeapon, IDisposable
     {
         public event Action OnFired;
 
@@ -71,6 +72,11 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
             _bullets[index].Unit.OnDied -= OnBulletDead;
             _bulletFactory.Release(_bullets[index]);
             _bullets.RemoveAt(index);
+        }
+
+        public void Dispose()
+        {
+            Clear();
         }
     }
 }
