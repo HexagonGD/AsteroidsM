@@ -357,7 +357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1427479201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,6 +455,7 @@ MonoBehaviour:
   _prefabsConfig: {fileID: 11400000, guid: 1dc8bbc689eb24847b8770988cca6768, type: 2}
   _lazerPrefab: {fileID: 9021697608971828872, guid: 2544c1956fe973749971bdc143598b4f, type: 3}
   _adsProviderPrefab: {fileID: 3913094759657774388, guid: 5866038b026655242935c4002b2444c5, type: 3}
+  _sceneContext: {fileID: 1761891729}
 --- !u!4 &1761891728
 Transform:
   m_ObjectHideFlags: 0
@@ -486,7 +487,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 1761891727}
   _installerPrefabs: []
-  _autoRun: 1
+  _autoRun: 0
   OnPreInstall:
     m_PersistentCalls:
       m_Calls: []
