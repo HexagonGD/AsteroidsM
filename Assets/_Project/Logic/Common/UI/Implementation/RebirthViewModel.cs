@@ -25,17 +25,26 @@ namespace Asteroids.Logic.Common.UI.Implementation
             _adsController.OnAdShowed += AdShowedHandler;
         }
 
-        public void ShowAd(AdType adType)
+        public void ShowAd(AdType adType, bool ignoreDisableAds = false)
         {
-            _adsController.ShowAd(adType);
+
+        }
+
+        public void RequestRebirth()
+        {
+            _adsController.ShowAd(AdType.Rewarded, true);
+        }
+
+        public void Skip()
+        {
+            _adsController.ShowAd(AdType.Interstitial);
+            _game.Complete();
         }
 
         private void AdShowedHandler(AdType adType, AdShowResult result)
         {
             if (adType == AdType.Rewarded && result == AdShowResult.Success)
                 _game.Rebirth();
-            else if (adType == AdType.Interstitial)
-                _game.Complete();
         }
 
         public void Dispose()

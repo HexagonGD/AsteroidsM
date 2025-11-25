@@ -40,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75a40c8bdfd65b34dbb7e516e35d9133
+    m_Address: Assets/_Project/Prefabs/UI/SaveResolveView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7889cb1b53ca8494cb0995811642a706
     m_Address: Assets/_Project/Prefabs/Bullet.prefab
     m_ReadOnly: 0
@@ -47,6 +52,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 803be787222a7234597061101a9d572f
     m_Address: Assets/_Project/Prefabs/FinalScoreView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85b29507c4e52b54f8197006cb5404ea
+    m_Address: Assets/_Project/Prefabs/UI/MainMenuView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

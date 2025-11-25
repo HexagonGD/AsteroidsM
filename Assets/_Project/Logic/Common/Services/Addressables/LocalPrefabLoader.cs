@@ -1,4 +1,7 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -9,11 +12,11 @@ namespace Asteroids.Logic.Common.Services
     {
         private Dictionary<AssetReference, AsyncOperationHandle<GameObject>> _handlers = new();
 
-        public T LoadInternal<T>(AssetReference reference)
+        public async UniTask<T> LoadInternal<T>(AssetReference reference)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>(reference);
             _handlers[reference] = handle;
-            handle.WaitForCompletion();
+            await handle.Task.AsUniTask();
 
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
