@@ -3,7 +3,7 @@ using Asteroids.Logic.Ads.Implementation;
 using Asteroids.Logic.Common.Services.Saving.Core;
 using Asteroids.Logic.Common.Services.Saving.Implementation;
 using Asteroids.Logic.Common.UI.Implementation;
-using Asteroids.Logic.Payments.Core;
+using Asteroids.Logic.Payments.Implementation;
 using UnityEngine;
 using Zenject;
 

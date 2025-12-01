@@ -1,3 +1,4 @@
+using Asteroids.Logic.Payments.Core;
 using Cysharp.Threading.Tasks;
 using ObservableCollections;
 using System.Collections.Generic;
@@ -6,9 +7,9 @@ using Zenject;
 
 using Debug = UnityEngine.Debug;
 
-namespace Asteroids.Logic.Payments.Core
+namespace Asteroids.Logic.Payments.Implementation
 {
-    public class PaymentService : IInitializable
+    public class PaymentService : IPaymentService, IInitializable
     {
         private StoreController _storeController;
         private ObservableList<string> _boughtProducts = new();

@@ -15,7 +15,7 @@ namespace Asteroids.Logic.Ads.Implementation
     {
         private readonly ISaveService _saveManager;
         private readonly IAdsProvider _adsProvider;
-        private readonly PaymentService _paymentService;
+        private readonly IPaymentService _paymentService;
         private readonly ReactiveProperty<bool> _adsDisabled = new(false);
 
         private UniTaskCompletionSource<AdShowResult> _rewardedShowTask;
@@ -27,7 +27,7 @@ namespace Asteroids.Logic.Ads.Implementation
         public ReadOnlyReactiveProperty<bool> RewardedAdsAvailable => _adsProvider.RewardedAdsAvailable;
         public ReadOnlyReactiveProperty<bool> InterstitialAdsAvailable => _adsProvider.InterstitialAdsAvailable;
 
-        public AdsService(ISaveService saveManager, IAdsProvider adsProvider, PaymentService paymentService)
+        public AdsService(ISaveService saveManager, IAdsProvider adsProvider, IPaymentService paymentService)
         {
             _saveManager = saveManager;
             _adsProvider = adsProvider;

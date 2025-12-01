@@ -8,12 +8,12 @@ namespace Asteroids.Logic.Common.UI.Implementation
 {
     public class MainMenuViewModel
     {
-        private readonly PaymentService _paymentService;
+        private readonly IPaymentService _paymentService;
         private readonly IAdsService _adsService;
 
         public ReadOnlyReactiveProperty<bool> AdsDisabled => _adsService.AdsDisabled;
 
-        public MainMenuViewModel(PaymentService paymentService, IAdsService adsService)
+        public MainMenuViewModel(IPaymentService paymentService, IAdsService adsService)
         {
             _paymentService = paymentService;
             _adsService = adsService;
