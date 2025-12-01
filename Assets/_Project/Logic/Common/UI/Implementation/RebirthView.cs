@@ -1,4 +1,5 @@
 using Asteroids.Logic.Common.UI.Core;
+using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,8 +20,8 @@ namespace Asteroids.Logic.Common.UI.Implementation
 
         public void Initialize()
         {
-            _watchAdButton.OnClickAsObservable().Subscribe(_ => _viewModel.RequestRebirth()).AddTo(this);
-            _skipButton.OnClickAsObservable().Subscribe(_ => _viewModel.Skip()).AddTo(this);
+            _watchAdButton.OnClickAsObservable().Subscribe(_ => _viewModel.RequestRebirth().Forget()).AddTo(this);
+            _skipButton.OnClickAsObservable().Subscribe(_ => _viewModel.SkipAsync().Forget()).AddTo(this);
             _viewModel.RewardedAdsAvailable.Subscribe(x => _watchAdButton.interactable = x).AddTo(this);
         }
 

@@ -4,6 +4,8 @@ namespace Asteroids.Logic.Ads.Core
     {
         Success,
         Failed,
-        Canceled
+        Canceled,
+        NoAds,
+        AdsDisabled
     }
 }

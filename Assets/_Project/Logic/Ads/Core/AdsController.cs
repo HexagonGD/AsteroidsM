@@ -12,22 +12,13 @@ namespace Asteroids.Logic.Ads.Core
 {
     public class AdsController : IInitializable, IDisposable
     {
-        public event Action<AdType, AdShowResult> OnAdShowed
-        {
-            add
-            {
-                _adsProvider.OnAdShowResult += value;
-            }
-            remove
-            {
-                _adsProvider.OnAdShowResult -= value;
-            }
-        }
-
         private readonly ISaveSystem _saveManager;
         private readonly IAdsProvider _adsProvider;
         private readonly PaymentService _paymentService;
         private readonly ReactiveProperty<bool> _adsDisabled = new(false);
+
+        private UniTaskCompletionSource<AdShowResult> _rewardedShowTask;
+        private UniTaskCompletionSource<AdShowResult> _interstitialShowTask;
 
         private DisposableBag _disposable;
 
@@ -46,12 +37,43 @@ namespace Asteroids.Logic.Ads.Core
         {
             _saveManager.Data.Subscribe(x => _adsDisabled.Value = x.AdsDisabled).AddTo(ref _disposable);
             _paymentService.BoughtProducts.ObserveAdd().Where(x => x.Value == "disable_ads").Subscribe(_ => DisableAds()).AddTo(ref _disposable);
+            _adsProvider.OnAdShowResult += AdShowResultHandler;
         }
 
-        public void ShowAd(AdType adType, bool ignoreDisableAds = false)
+        public UniTask<AdShowResult> ShowRewardedAdAsync(bool ignoreDisableAds = false)
+        {
+            return ShowAd(ref _rewardedShowTask, AdType.Rewarded, ignoreDisableAds);
+        }
+
+        public UniTask<AdShowResult> ShowInterstitialAdAsync(bool ignoreDisableAds = false)
+        {
+            return ShowAd(ref _interstitialShowTask, AdType.Interstitial, ignoreDisableAds);
+        }
+
+        private UniTask<AdShowResult> ShowAd(ref UniTaskCompletionSource<AdShowResult> tcs, AdType adType, bool ignoreDisableAds)
         {
             if (ignoreDisableAds || AdsDisabled.CurrentValue == false)
+            {
+                if (tcs != null && tcs.GetStatus(0) == UniTaskStatus.Pending)
+                    return tcs.Task;
+
+                tcs = new UniTaskCompletionSource<AdShowResult>();
+
                 _adsProvider.ShowAd(adType);
+                return tcs.Task;
+            }
+            else
+            {
+                return UniTask.FromResult(AdShowResult.AdsDisabled);
+            }
+        }
+
+        private void AdShowResultHandler(AdType type, AdShowResult result)
+        {
+            if (type == AdType.Rewarded)
+                _rewardedShowTask?.TrySetResult(result);
+            else if (type == AdType.Interstitial)
+                _interstitialShowTask?.TrySetResult(result);
         }
 
         private void DisableAds()
@@ -72,6 +94,7 @@ namespace Asteroids.Logic.Ads.Core
         public void Dispose()
         {
             _disposable.Dispose();
+            _adsProvider.OnAdShowResult -= AdShowResultHandler;
         }
     }
 }
