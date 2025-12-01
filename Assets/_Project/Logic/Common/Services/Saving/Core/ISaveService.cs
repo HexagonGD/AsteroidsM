@@ -3,7 +3,7 @@ using R3;
 
 namespace Asteroids.Logic.Common.Services.Saving.Core
 {
-    public interface ISaveSystem
+    public interface ISaveService
     {
         public ReadOnlyReactiveProperty<SaveData> Data { get; }
         public ReadOnlyReactiveProperty<bool> NeedResolve { get; }

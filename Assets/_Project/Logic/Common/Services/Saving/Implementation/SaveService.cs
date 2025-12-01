@@ -1,4 +1,3 @@
-using Asteroids.Logic.Common.Services.Saving;
 using Asteroids.Logic.Common.Services.Saving.Core;
 using Cysharp.Threading.Tasks;
 using R3;
@@ -8,7 +7,7 @@ using Zenject;
 
 namespace Asteroids.Logic.Common.Services.Saving.Implementation
 {
-    public class SaveSystem : IInitializable, IDisposable, ISaveSystem
+    public class SaveService : IInitializable, IDisposable, ISaveService
     {
         private const string KEY = "data";
 
@@ -33,7 +32,7 @@ namespace Asteroids.Logic.Common.Services.Saving.Implementation
         public SaveData LastSessionCloudData => _lastSessionCloudData;
         public ReadOnlyReactiveProperty<bool> NeedResolve => _needResolve;
 
-        public SaveSystem([Inject(Id = "local")] IDataStorage localSaveStorage, [Inject(Id = "cloud")] IDataStorage cloudSaveStorage, ISerializer serializer)
+        public SaveService([Inject(Id = "local")] IDataStorage localSaveStorage, [Inject(Id = "cloud")] IDataStorage cloudSaveStorage, ISerializer serializer)
         {
             _localDataStorage = localSaveStorage;
             _cloudDataStorage = cloudSaveStorage;

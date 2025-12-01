@@ -9,7 +9,7 @@ namespace Asteroids.Logic.Common.Services
 {
     public class Score : IInitializable, IDisposable
     {
-        private readonly ISaveSystem _saveManager;
+        private readonly ISaveService _saveManager;
         private readonly FSM _fsm;
         private int _previousBest = 0;
         private ReactiveProperty<int> _best = new(0);
@@ -17,7 +17,7 @@ namespace Asteroids.Logic.Common.Services
         public ReactiveProperty<int> Current = new ReactiveProperty<int>(0);
         public ReadOnlyReactiveProperty<int> Best => _best;
 
-        public Score(ISaveSystem saveManager, FSM fsm)
+        public Score(ISaveService saveManager, FSM fsm)
         {
             _saveManager = saveManager;
             _fsm = fsm;

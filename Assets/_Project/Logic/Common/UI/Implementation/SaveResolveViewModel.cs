@@ -7,7 +7,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
 {
     public class SaveResolveViewModel
     {
-        private readonly ISaveSystem _saveSystem;
+        private readonly ISaveService _saveSystem;
         private ReactiveProperty<bool> _resolving = new(false);
 
         public ReadOnlyReactiveProperty<bool> NeedResolve => _saveSystem.NeedResolve;
@@ -15,7 +15,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
         public SaveData LocalData => _saveSystem.Data.CurrentValue;
         public SaveData CloudData => _saveSystem.LastSessionCloudData;
 
-        public SaveResolveViewModel(ISaveSystem saveSystem)
+        public SaveResolveViewModel(ISaveService saveSystem)
         {
             _saveSystem = saveSystem;
         }

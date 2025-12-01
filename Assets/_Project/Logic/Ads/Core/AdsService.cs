@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Asteroids.Logic.Ads.Core
 {
-    public class AdsController : IInitializable, IDisposable
+    public class AdsService : IInitializable, IDisposable
     {
         private readonly ISaveSystem _saveManager;
         private readonly IAdsProvider _adsProvider;
@@ -26,7 +26,7 @@ namespace Asteroids.Logic.Ads.Core
         public ReadOnlyReactiveProperty<bool> RewardedAdsAvailable => _adsProvider.RewardedAdsAvailable;
         public ReadOnlyReactiveProperty<bool> InterstitialAdsAvailable => _adsProvider.InterstitialAdsAvailable;
 
-        public AdsController(ISaveSystem saveManager, IAdsProvider adsProvider, PaymentService paymentService)
+        public AdsService(ISaveSystem saveManager, IAdsProvider adsProvider, PaymentService paymentService)
         {
             _saveManager = saveManager;
             _adsProvider = adsProvider;

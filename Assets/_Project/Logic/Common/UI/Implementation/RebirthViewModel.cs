@@ -8,12 +8,12 @@ namespace Asteroids.Logic.Common.UI.Implementation
     public class RebirthViewModel
     {
         private readonly Game _game;
-        private readonly AdsController _adsController;
+        private readonly AdsService _adsController;
 
         public ReadOnlyReactiveProperty<bool> RewardedAdsAvailable => _adsController.RewardedAdsAvailable;
         public ReadOnlyReactiveProperty<bool> InterstitialAdsAvailable => _adsController.InterstitialAdsAvailable;
 
-        public RebirthViewModel(Game game, AdsController adsController)
+        public RebirthViewModel(Game game, AdsService adsController)
         {
             _game = game;
             _adsController = adsController;

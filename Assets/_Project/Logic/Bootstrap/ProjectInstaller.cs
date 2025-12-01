@@ -16,7 +16,7 @@ namespace Asteroids.Logic.Bootstrap
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<PaymentService>().AsSingle();
-            Container.BindInterfacesAndSelfTo<SaveSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SaveService>().AsSingle();
             Container.BindInterfacesAndSelfTo<UnityJsonSerializer>().AsSingle();
             Container.Bind<IDataStorage>().WithId("local").To<PlayerPrefsDataStorage>().AsSingle();
             Container.Bind<IDataStorage>().WithId("cloud").To<UnityCloudDataStorage>().AsSingle();
@@ -28,7 +28,7 @@ namespace Asteroids.Logic.Bootstrap
 
         private void BindAds()
         {
-            Container.BindInterfacesAndSelfTo<AdsController>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AdsService>().AsSingle().NonLazy();
             //Container.Bind<IAdsProvider>().To<TestAdsProvider>().AsSingle();
             Container.Bind<IAdsProvider>().To<UnityAdsProvider>().FromComponentInNewPrefab(_adsProviderPrefab).AsSingle();
         }

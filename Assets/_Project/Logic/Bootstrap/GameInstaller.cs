@@ -69,7 +69,7 @@ namespace Asteroids.Logic.Bootstrap
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<PlayZone>().AsSingle().WithArguments(_camera);
-            Container.BindInterfacesAndSelfTo<SpawnersController>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SpawnersService>().AsSingle();
             Container.BindInterfacesAndSelfTo<Arsenal>().AsSingle();
             Container.BindInterfacesAndSelfTo<LazerRendererController>().AsSingle();
             Container.BindInterfacesAndSelfTo<FSM>().AsSingle();
@@ -168,7 +168,7 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<IAnalyticListener>().To<StartGameAnalyticListener>().AsSingle();
             Container.Bind<IAnalyticListener>().To<EndGameAnalyticListener>().AsSingle();
             Container.Bind<IAnalytic>().To<FirebaseAdapter>().AsSingle();
-            Container.BindInterfacesAndSelfTo<AnalyticManager>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AnalyticService>().AsSingle().NonLazy();
         }
 
         private void OnDestroy()
