@@ -1,3 +1,4 @@
+using Asteroids.Logic.Ads.Core;
 using Asteroids.Logic.Common.Services.Saving.Core;
 using Asteroids.Logic.Payments.Core;
 using Cysharp.Threading.Tasks;
@@ -8,11 +9,11 @@ using System.Linq;
 using UnityEngine;
 using Zenject;
 
-namespace Asteroids.Logic.Ads.Core
+namespace Asteroids.Logic.Ads.Implementation
 {
-    public class AdsService : IInitializable, IDisposable
+    public class AdsService : IAdsService, IInitializable, IDisposable
     {
-        private readonly ISaveSystem _saveManager;
+        private readonly ISaveService _saveManager;
         private readonly IAdsProvider _adsProvider;
         private readonly PaymentService _paymentService;
         private readonly ReactiveProperty<bool> _adsDisabled = new(false);
@@ -26,7 +27,7 @@ namespace Asteroids.Logic.Ads.Core
         public ReadOnlyReactiveProperty<bool> RewardedAdsAvailable => _adsProvider.RewardedAdsAvailable;
         public ReadOnlyReactiveProperty<bool> InterstitialAdsAvailable => _adsProvider.InterstitialAdsAvailable;
 
-        public AdsService(ISaveSystem saveManager, IAdsProvider adsProvider, PaymentService paymentService)
+        public AdsService(ISaveService saveManager, IAdsProvider adsProvider, PaymentService paymentService)
         {
             _saveManager = saveManager;
             _adsProvider = adsProvider;

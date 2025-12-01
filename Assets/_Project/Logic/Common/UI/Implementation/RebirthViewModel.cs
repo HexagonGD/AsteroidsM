@@ -8,20 +8,20 @@ namespace Asteroids.Logic.Common.UI.Implementation
     public class RebirthViewModel
     {
         private readonly Game _game;
-        private readonly AdsService _adsController;
+        private readonly IAdsService _adsService;
 
-        public ReadOnlyReactiveProperty<bool> RewardedAdsAvailable => _adsController.RewardedAdsAvailable;
-        public ReadOnlyReactiveProperty<bool> InterstitialAdsAvailable => _adsController.InterstitialAdsAvailable;
+        public ReadOnlyReactiveProperty<bool> RewardedAdsAvailable => _adsService.RewardedAdsAvailable;
+        public ReadOnlyReactiveProperty<bool> InterstitialAdsAvailable => _adsService.InterstitialAdsAvailable;
 
-        public RebirthViewModel(Game game, AdsService adsController)
+        public RebirthViewModel(Game game, IAdsService adsService)
         {
             _game = game;
-            _adsController = adsController;
+            _adsService = adsService;
         }
 
         public async UniTask RequestRebirth()
         {
-            var showResult = await _adsController.ShowRewardedAdAsync(true);
+            var showResult = await _adsService.ShowRewardedAdAsync(true);
             switch (showResult)
             {
                 case AdShowResult.Success:
@@ -37,7 +37,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
 
         public async UniTask SkipAsync()
         {
-            await _adsController.ShowInterstitialAdAsync();
+            await _adsService.ShowInterstitialAdAsync();
             _game.Complete();
         }
     }
