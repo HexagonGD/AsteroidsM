@@ -1,8 +1,8 @@
 using Asteroids.Logic.Ads.Core;
 using Asteroids.Logic.Payments.Core;
+using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Asteroids.Logic.Common.UI.Implementation
 {
@@ -10,19 +10,21 @@ namespace Asteroids.Logic.Common.UI.Implementation
     {
         private readonly IPaymentService _paymentService;
         private readonly IAdsService _adsService;
+        private readonly SceneService _sceneService;
 
         public ReadOnlyReactiveProperty<bool> AdsDisabled => _adsService.AdsDisabled;
 
-        public MainMenuViewModel(IPaymentService paymentService, IAdsService adsService)
+        public MainMenuViewModel(IPaymentService paymentService, IAdsService adsService, SceneService sceneService)
         {
             _paymentService = paymentService;
             _adsService = adsService;
+            _sceneService = sceneService;
         }
 
         public void RunGame()
         {
             Debug.Log("RunGame");
-            SceneManager.LoadScene("Game");
+            _sceneService.LoadGameScene().Forget();
         }
 
         public void DisableAds()

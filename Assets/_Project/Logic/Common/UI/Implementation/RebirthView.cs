@@ -22,6 +22,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
         {
             _watchAdButton.OnClickAsObservable().Subscribe(_ => _viewModel.RequestRebirth().Forget()).AddTo(this);
             _skipButton.OnClickAsObservable().Subscribe(_ => _viewModel.SkipAsync().Forget()).AddTo(this);
+            _watchAdButton.interactable = _viewModel.RewardedAdsAvailable.CurrentValue;
             _viewModel.RewardedAdsAvailable.Subscribe(x => _watchAdButton.interactable = x).AddTo(this);
         }
 

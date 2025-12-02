@@ -22,6 +22,7 @@ namespace Asteroids.Logic.Bootstrap
             Container.Bind<IDataStorage>().WithId("cloud").To<UnityCloudDataStorage>().AsSingle();
             Container.BindInterfacesAndSelfTo<SaveResolveViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<MainMenuViewModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SceneService>().AsSingle();
 
             BindAds();
         }
