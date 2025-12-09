@@ -14,5 +14,10 @@ namespace Asteroids.Logic.Common.Units.Implementation
                  base(movement, borderHandler, deadZoneHandler, dieHandler, data)
         {
         }
+
+        protected override void OnDie()
+        {
+            
+        }
     }
 }

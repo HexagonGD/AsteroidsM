@@ -1,11 +1,12 @@
 using Asteroids.Logic.Common.Configs.Implementation;
 using Asteroids.Logic.Common.Movement.Core;
 using Asteroids.Logic.Extensions;
+using System;
 using UnityEngine;
 
 namespace Asteroids.Logic.Common.Movement.Implementation
 {
-    public partial class AccelerationMovement : IMovement
+    public class AccelerationMovement : IMovement, IDisposable
     {
         private readonly AccelerationMovementConfig _speedData;
 
@@ -38,6 +39,12 @@ namespace Asteroids.Logic.Common.Movement.Implementation
 
             data += data.Speed * deltaTime;
             return data;
+        }
+
+        public void Dispose()
+        {
+            _input?.Disable();
+            _input = null;
         }
     }
 }

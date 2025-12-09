@@ -65,6 +65,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9d42ce24d7c305439783325a3c6e034
+    m_Address: Assets/_Project/Content/SoundsConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dc2b7112a0663fb44a485aab593a14c5
     m_Address: Assets/_Project/Prefabs/DebugView.prefab
     m_ReadOnly: 0

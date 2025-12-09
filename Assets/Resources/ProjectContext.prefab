@@ -75,3 +75,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Logic.Bootstrap.ProjectInstaller
   _adsProviderPrefab: {fileID: 3913094759657774388, guid: 5866038b026655242935c4002b2444c5, type: 3}
+  _soundsServicePrefab: {fileID: 8453865075938876836, guid: 357bda293ef1cd7439497bb866c87c1a, type: 3}

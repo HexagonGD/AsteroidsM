@@ -29,12 +29,12 @@ namespace Asteroids.Logic.Common.UI.Implementation
             _viewModel.ChargeReload.Subscribe(x => _reloadTMP.SetText($"Reload: {x:0.00}")).AddTo(this);
         }
 
-        public override void Show()
+        public override void Show(bool ignoreAnimation = false)
         {
             gameObject.SetActive(true);
         }
 
-        public override void Hide()
+        public override void Hide(bool ignoreAnimation = false)
         {
             gameObject.SetActive(false);
         }

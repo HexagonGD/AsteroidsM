@@ -12,7 +12,7 @@ namespace Asteroids.Logic.Common.UI.Core
             _viewModel = viewModel;
         }
 
-        public abstract void Show();
-        public abstract void Hide();
+        public abstract void Show(bool ignoreAnimation = false);
+        public abstract void Hide(bool ignoreAnimation = false);
     }
 }

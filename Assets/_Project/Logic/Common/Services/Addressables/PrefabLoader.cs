@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Asteroids.Logic.Common.Services
 {
-    public class LocalPrefabLoader
+    public class PrefabLoader
     {
         private Dictionary<AssetReference, AsyncOperationHandle<GameObject>> _handlers = new();
 

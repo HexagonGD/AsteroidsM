@@ -38,10 +38,15 @@ namespace Asteroids.Logic.Common.Units.Core
 
         public void Die(bool real = true)
         {
-            if(real)
+            if (real)
+            {
                 _dieHandler.Handle(this);
+                OnDie();
+            }
             OnDied?.Invoke(this, real);
         }
+
+        protected abstract void OnDie();
 
         public class Factory : PlaceholderFactory<Unit>
         {

@@ -43,7 +43,7 @@ namespace Asteroids.Logic.Bootstrap
         [SerializeField] private UnityAdsProvider _adsProviderPrefab;
         [SerializeField] private SceneContext _sceneContext;
 
-        private LocalPrefabLoader _loader = new();
+        private PrefabLoader _loader = new();
         private DebugView _debugView;
         private FinalScoreView _finalScoreView;
         private RebirthView _rebirthView;

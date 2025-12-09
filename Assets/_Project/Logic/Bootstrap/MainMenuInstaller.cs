@@ -12,7 +12,7 @@ namespace Asteroids.Logic.Bootstrap
         [SerializeField] private PrefabsConfig _prefabsConfig;
         [SerializeField] private SceneContext _sceneContext;
 
-        private LocalPrefabLoader _loader = new();
+        private PrefabLoader _loader = new();
         private MainMenuView _menuView;
         private SaveResolveView _resolveView;
 

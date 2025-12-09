@@ -2,6 +2,7 @@ using Asteroids.Logic.Ads.Core;
 using Asteroids.Logic.Ads.Implementation;
 using Asteroids.Logic.Common.Services.Saving.Core;
 using Asteroids.Logic.Common.Services.Saving.Implementation;
+using Asteroids.Logic.Common.Services.Sounds;
 using Asteroids.Logic.Common.UI.Implementation;
 using Asteroids.Logic.Payments.Implementation;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Asteroids.Logic.Bootstrap
     public class ProjectInstaller : MonoInstaller
     {
         [SerializeField] private UnityAdsProvider _adsProviderPrefab;
+        [SerializeField] private SoundsService _soundsServicePrefab;
 
         public override void InstallBindings()
         {
@@ -23,6 +25,7 @@ namespace Asteroids.Logic.Bootstrap
             Container.BindInterfacesAndSelfTo<SaveResolveViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<MainMenuViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SoundsService>().FromComponentInNewPrefab(_soundsServicePrefab).AsSingle();
 
             BindAds();
         }

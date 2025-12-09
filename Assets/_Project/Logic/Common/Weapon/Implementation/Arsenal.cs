@@ -1,9 +1,10 @@
 using Asteroids.Logic.Common.Weapon.Core;
+using System;
 using Zenject;
 
 namespace Asteroids.Logic.Common.Weapon.Implementation
 {
-    public class Arsenal
+    public class Arsenal : IDisposable
     {
         private readonly IWeapon _firstWeapon;
         private readonly IWeapon _secondWeapon;
@@ -36,6 +37,12 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
         {
             _firstWeapon.Clear();
             _secondWeapon.Clear();
+        }
+
+        public void Dispose()
+        {
+            _input?.Disable();
+            _input = null;
         }
     }
 }

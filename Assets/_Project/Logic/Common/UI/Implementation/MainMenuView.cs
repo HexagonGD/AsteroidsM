@@ -25,12 +25,12 @@ namespace Asteroids.Logic.Common.UI.Implementation
             _disableAdsButton.OnClickAsObservable().Subscribe(_ => _viewModel.DisableAds()).AddTo(this);
         }
 
-        public override void Show()
+        public override void Show(bool ignoreAnimation = false)
         {
             gameObject.SetActive(true);
         }
 
-        public override void Hide()
+        public override void Hide(bool ignoreAnimation = false)
         {
             gameObject.SetActive(false);
         }

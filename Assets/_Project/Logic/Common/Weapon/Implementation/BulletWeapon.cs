@@ -1,6 +1,7 @@
 using Asteroids.Logic.Common.Configs.Implementation;
 using Asteroids.Logic.Common.Movement.Core;
 using Asteroids.Logic.Common.Services.Factory.Implementation;
+using Asteroids.Logic.Common.Services.Sounds;
 using Asteroids.Logic.Common.Units;
 using Asteroids.Logic.Common.Units.Core;
 using Asteroids.Logic.Common.Units.Implementation;
@@ -12,22 +13,24 @@ using UnityEngine;
 
 namespace Asteroids.Logic.Common.Weapon.Implementation
 {
-    public partial class BulletWeapon : IWeapon, IDisposable
+    public partial class BulletWeapon : IWeapon
     {
         public event Action OnFired;
 
         private readonly Unit _unit;
         private readonly CompositeFactory _bulletFactory;
         private readonly BulletWeaponConfig _config;
+        private readonly SoundsService _soundsService;
 
         private List<CompositeUnit> _bullets = new();
 
-        public BulletWeapon(Ship unit, Unit.Factory bulletFactory, UnitView.Factory unitViewFactory, BulletWeaponConfig config)
+        public BulletWeapon(Ship unit, Unit.Factory bulletFactory, UnitView.Factory unitViewFactory, BulletWeaponConfig config, SoundsService soundsService)
         {
             _unit = unit;
             _bulletFactory = new CompositeFactory(bulletFactory, unitViewFactory);
             _config = config;
             RemainingReloadTime = 0;
+            _soundsService = soundsService;
         }
 
         public float ReloadTime => _config.ReloadTime;
@@ -51,6 +54,7 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
                 _bullets.Add(bullet);
                 bullet.Unit.OnDied += OnBulletDead;
                 RemainingReloadTime = ReloadTime;
+                _soundsService.PlaySFX(SFXType.Shot);
                 OnFired?.Invoke();
                 return true;
             }
@@ -72,11 +76,6 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
             _bullets[index].Unit.OnDied -= OnBulletDead;
             _bulletFactory.Release(_bullets[index]);
             _bullets.RemoveAt(index);
-        }
-
-        public void Dispose()
-        {
-            Clear();
         }
     }
 }

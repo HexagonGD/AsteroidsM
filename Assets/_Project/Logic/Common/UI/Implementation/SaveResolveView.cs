@@ -40,7 +40,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
             _cloudDataView.OnDataChoiced -= DataChoicedHandler;
         }
 
-        public override void Show()
+        public override void Show(bool ignoreAnimation = false)
         {
             if (_viewModel != null && _viewModel.NeedResolve.CurrentValue && _viewModel.Resolving.CurrentValue == false)
             {
@@ -55,7 +55,7 @@ namespace Asteroids.Logic.Common.UI.Implementation
             }
         }
 
-        public override void Hide()
+        public override void Hide(bool ignoreAnimation = false)
         {
             gameObject.SetActive(false);
         }

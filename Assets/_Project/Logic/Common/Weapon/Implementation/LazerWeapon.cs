@@ -1,4 +1,5 @@
 using Asteroids.Logic.Common.Configs.Implementation;
+using Asteroids.Logic.Common.Services.Sounds;
 using Asteroids.Logic.Common.Units;
 using Asteroids.Logic.Common.Units.Core;
 using Asteroids.Logic.Common.Units.Implementation;
@@ -17,17 +18,19 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
         private readonly Unit _unit;
         private readonly LazerRendererController _lazerController;
         private readonly LazerWeaponConfig _config;
+        private readonly SoundsService _soundsService;
 
         private RaycastHit2D[] _hits = new RaycastHit2D[25];
         private LayerMask _layerMask;
         private float _accumulatedTime = 0;
         private float _accumulatedDelay = 0;
 
-        public LazerWeapon(Ship unit, LazerRendererController lazerController, LazerWeaponConfig config)
+        public LazerWeapon(Ship unit, LazerRendererController lazerController, LazerWeaponConfig config, SoundsService soundsService)
         {
             _unit = unit;
             _lazerController = lazerController;
             _config = config;
+            _soundsService = soundsService;
 
             Charges = Mathf.Min(MaxCharges, _config.StartCharges);
         }
@@ -53,6 +56,7 @@ namespace Asteroids.Logic.Common.Weapon.Implementation
                 }
 
                 _lazerController.DrawLazer(_unit.Data.Position, Vector2.right.Vector2FromAngle(_unit.Data.Rotation));
+                _soundsService.PlaySFX(SFXType.Lazer);
                 OnFired?.Invoke();
                 return true;
             }

@@ -2,11 +2,36 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Unity.Services.Core;
 using UnityEngine;
 
 public static class UniTaskExtension
 {
+    public static async UniTask<T> DoUntilComplete<T>(Func<UniTask<T>> task, float delayBetweenTry, int maxTry = -1, CancellationToken token = default)
+    {
+        int tries = 0;
+        bool success = false;
+        T result = default;
+
+        while(success == false && token.IsCancellationRequested == false &&
+             (maxTry == -1 || tries++ < maxTry))
+        {
+            success = true;
+
+            try
+            {
+                result = await task();
+            }
+            catch(Exception e)
+            {
+                success = false;
+                Debug.LogError(e);
+                await UniTask.Delay(TimeSpan.FromSeconds(delayBetweenTry));
+            }
+        }
+
+        return result;
+    }
+
     public static async UniTask DoUntilComplete(Func<Task> task, float delayBetweenTry, CancellationToken token = default)
     {
         var result = false;
