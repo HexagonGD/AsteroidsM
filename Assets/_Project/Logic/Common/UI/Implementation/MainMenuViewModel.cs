@@ -31,5 +31,10 @@ namespace Asteroids.Logic.Common.UI.Implementation
         {
             _paymentService.BuyProduct("disable_ads");
         }
+
+        public void CloseGame()
+        {
+            Application.Quit();
+        }
     }
 }
