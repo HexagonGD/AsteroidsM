@@ -40,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75a40c8bdfd65b34dbb7e516e35d9133
+    m_Address: Assets/_Project/Prefabs/UI/SaveResolveView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7889cb1b53ca8494cb0995811642a706
     m_Address: Assets/_Project/Prefabs/Bullet.prefab
     m_ReadOnly: 0
@@ -50,8 +55,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85b29507c4e52b54f8197006cb5404ea
+    m_Address: Assets/_Project/Prefabs/UI/MainMenuView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a333f15630a4e1648aae3fe811233821
     m_Address: Assets/_Project/Prefabs/Ship.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9d42ce24d7c305439783325a3c6e034
+    m_Address: Assets/_Project/Content/SoundsConfig.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

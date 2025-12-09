@@ -3,16 +3,25 @@ using Asteroids.Logic.Common.Movement.BorderHandler.Implementation;
 using Asteroids.Logic.Common.Movement.Core;
 using Asteroids.Logic.Common.Movement.DeadZoneHandler.Implementation;
 using Asteroids.Logic.Common.Movement.Implementation;
+using Asteroids.Logic.Common.Services.Sounds;
 using Asteroids.Logic.Common.Units.Core;
 
 namespace Asteroids.Logic.Common.Units.Implementation
 {
     public class SmallAsteroid : Unit
     {
+        private SoundsService _soundsService;
+
         public SmallAsteroid(LinearMovement movement, IgnoreBorder borderHandler,
-                             OffsetBorderDeadZone deadZoneHandler, WithoutDieEffect dieHandler, TransformData data = default) :
-                        base(movement, borderHandler, deadZoneHandler, dieHandler, data)
+                             OffsetBorderDeadZone deadZoneHandler, WithoutDieEffect dieHandler, SoundsService soundsService, 
+                             TransformData data = default) : base(movement, borderHandler, deadZoneHandler, dieHandler, data)
         {
+            _soundsService = soundsService;
+        }
+
+        protected override void OnDie()
+        {
+            _soundsService.PlaySFX(SFXType.DestroyedAsteroid);
         }
     }
 }

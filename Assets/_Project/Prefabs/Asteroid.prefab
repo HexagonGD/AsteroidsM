@@ -140,3 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea33fbd8eb405d2409df527817ad4b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitView
+  _destroyCollisionWithEffect: 1
+  _dieClip: 0
+  _dieEffect: {fileID: 3716081634460008672, guid: 3f7c2f59624dcc04293875ea763e60c0, type: 3}

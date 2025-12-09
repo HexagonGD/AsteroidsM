@@ -1,46 +1,44 @@
 using Asteroids.Logic.Ads.Core;
 using Asteroids.Logic.Bootstrap;
+using Cysharp.Threading.Tasks;
 using R3;
-using System;
-using Zenject;
 
 namespace Asteroids.Logic.Common.UI.Implementation
 {
-    public class RebirthViewModel : IInitializable, IDisposable
+    public class RebirthViewModel
     {
         private readonly Game _game;
-        private readonly AdsController _adsController;
+        private readonly IAdsService _adsService;
 
-        public ReadOnlyReactiveProperty<bool> RewardedAdsAvailable => _adsController.RewardedAdsAvailable;
-        public ReadOnlyReactiveProperty<bool> InterstitialAdsAvailable => _adsController.InterstitialAdsAvailable;
+        public ReadOnlyReactiveProperty<bool> RewardedAdsAvailable => _adsService.RewardedAdsAvailable;
+        public ReadOnlyReactiveProperty<bool> InterstitialAdsAvailable => _adsService.InterstitialAdsAvailable;
 
-        public RebirthViewModel(Game game, AdsController adsController)
+        public RebirthViewModel(Game game, IAdsService adsService)
         {
             _game = game;
-            _adsController = adsController;
+            _adsService = adsService;
         }
 
-        public void Initialize()
+        public async UniTask RequestRebirth()
         {
-            _adsController.OnAdShowed += AdShowedHandler;
+            var showResult = await _adsService.ShowRewardedAdAsync(true);
+            switch (showResult)
+            {
+                case AdShowResult.Success:
+                case AdShowResult.AdsDisabled:
+                    _game.Rebirth();
+                    break;
+                case AdShowResult.Failed:
+                case AdShowResult.Canceled:
+                case AdShowResult.NoAds:
+                    break;
+            }
         }
 
-        public void ShowAd(AdType adType)
+        public async UniTask SkipAsync()
         {
-            _adsController.ShowAd(adType);
-        }
-
-        private void AdShowedHandler(AdType adType, AdShowResult result)
-        {
-            if (adType == AdType.Rewarded && result == AdShowResult.Success)
-                _game.Rebirth();
-            else if (adType == AdType.Interstitial)
-                _game.Complete();
-        }
-
-        public void Dispose()
-        {
-            _adsController.OnAdShowed -= AdShowedHandler;
+            await _adsService.ShowInterstitialAdAsync();
+            _game.Complete();
         }
     }
 }

@@ -7,8 +7,21 @@ namespace Asteroids.Logic.Common.Units
     public class UnitView : MonoBehaviour
     {
         [SerializeField] private bool _destroyCollisionWithEffect = true;
+        [SerializeField] private GameObject _dieEffect;
 
-        public Unit Unit { get; set; }
+        private Unit _unit;
+
+        public Unit Unit
+        {
+            get => _unit;
+            set
+            {
+                if (_unit != null)
+                    _unit.OnDied -= DiedHandler;
+                value.OnDied += DiedHandler;
+                _unit = value;
+            }
+        }
 
         public void Hide()
         {
@@ -26,6 +39,12 @@ namespace Asteroids.Logic.Common.Units
             {
                 unitView.Unit?.Die(_destroyCollisionWithEffect);
             }
+        }
+
+        private void DiedHandler(Unit unit, bool real)
+        {
+            if (real && _dieEffect != null)
+                UnityEngine.Object.Instantiate(_dieEffect, transform.position, Quaternion.identity);
         }
 
         public class Factory : PlaceholderFactory<UnitView> { }

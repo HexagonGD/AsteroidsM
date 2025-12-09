@@ -12,50 +12,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7948d125126c34baecb4b3bf29612e, type: 3}
   m_Name: PrefabsConfig
   m_EditorClassIdentifier: Assembly-CSharp::PrefabsConfig
-  ShipPrefab:
+  <ShipPrefab>k__BackingField:
     m_AssetGUID: a333f15630a4e1648aae3fe811233821
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  UFOPrefab:
+  <UFOPrefab>k__BackingField:
     m_AssetGUID: 199a11bdacad7d444a56d22a65ac4a22
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  SmallAsteroidPrefab:
+  <SmallAsteroidPrefab>k__BackingField:
     m_AssetGUID: 318ff94c03b39404bb99a3a289bad817
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  BigAsteroidPrefab:
+  <BigAsteroidPrefab>k__BackingField:
     m_AssetGUID: 5d80d877c663d964f95976d878eefab1
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  BulletPrefab:
+  <BulletPrefab>k__BackingField:
     m_AssetGUID: 7889cb1b53ca8494cb0995811642a706
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DebugViewPrefab:
+  <DebugViewPrefab>k__BackingField:
     m_AssetGUID: dc2b7112a0663fb44a485aab593a14c5
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  FinalScoreViewPrefab:
+  <FinalScoreViewPrefab>k__BackingField:
     m_AssetGUID: 803be787222a7234597061101a9d572f
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  RebirthViewPrefab:
+  <RebirthViewPrefab>k__BackingField:
     m_AssetGUID: 516e1fd1769ba774abc8da50e398e746
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  <MainMenuViewPrefab>k__BackingField:
+    m_AssetGUID: 85b29507c4e52b54f8197006cb5404ea
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  <SaveResolveView>k__BackingField:
+    m_AssetGUID: 75a40c8bdfd65b34dbb7e516e35d9133
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

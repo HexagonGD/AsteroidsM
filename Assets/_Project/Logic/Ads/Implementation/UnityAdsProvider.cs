@@ -54,9 +54,15 @@ namespace Asteroids.Logic.Ads.Implementation
         public void OnUnityAdsAdLoaded(string placementId)
         {
             if (placementId == _rewarderID)
+            {
                 _rewarderAvailable.Value = true;
+                Debug.Log("Rewarder ad loaded");
+            }
             else if (placementId == _interstitialID)
+            {
                 _interstitialAvailable.Value = true;
+                Debug.Log("Interstitial ad loaded");
+            }
             else
                 Debug.LogError($"Incorrect ad id {placementId}");
         }

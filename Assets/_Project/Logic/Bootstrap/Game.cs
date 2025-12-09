@@ -18,7 +18,7 @@ namespace Asteroids.Logic.Bootstrap
     public class Game : ITickable, IInitializable, IDisposable
     {
         private readonly CompositeUnitRepository _unitRepository;
-        private readonly SpawnersController _spawnersController;
+        private readonly SpawnersService _spawnersController;
         private readonly Arsenal _arsenal;
         private readonly CompositeUnit _ship;
         private readonly FSM _fsm;
@@ -29,7 +29,7 @@ namespace Asteroids.Logic.Bootstrap
         
         public bool RebirthAvailable { get; private set; }
 
-        public Game(CompositeUnitRepository unitRepository, SpawnersController spawnersController,
+        public Game(CompositeUnitRepository unitRepository, SpawnersService spawnersController,
                     Arsenal arsenal, Ship ship, UnitView shipView, FSM fsm, Score score, RemoteConfigsLoader remoteConfigsLoader)
         {
             _unitRepository = unitRepository;

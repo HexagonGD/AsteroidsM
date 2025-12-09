@@ -57,11 +57,5 @@ namespace Asteroids.Logic.Common.Spawners.Implementation
             _unitRepository.Unregister(_units[index]);
             _units.RemoveAt(index);
         }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            Clear();
-        }
     }
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eba5ee9141f02f49b6e816bd6bcbb7a, type: 3}
+  m_Name: SoundsConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Logic.Content.SoundsConfig
+  <BGClip>k__BackingField: {fileID: 8300000, guid: e75df5cd9c1f944ce99e585d983fa119, type: 3}
+  <ShipDestroyedClip>k__BackingField: {fileID: 8300000, guid: 8401456349c492a489ed90469e317e43, type: 3}
+  <AsteroidDestroyedClip>k__BackingField: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
+  <UFODestroyedClip>k__BackingField: {fileID: 8300000, guid: 8401456349c492a489ed90469e317e43, type: 3}
+  <ShotClip>k__BackingField: {fileID: 8300000, guid: a245ee5d75348c84a89ffb7992f1dc82, type: 3}
+  <LazerClip>k__BackingField: {fileID: 8300000, guid: 06ada5590eba8d6489b36c6f3c54ff78, type: 3}

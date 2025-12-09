@@ -33,6 +33,9 @@ namespace Asteroids.Logic.Common.Services.Factory.Implementation
 
         public void Release(CompositeUnit value)
         {
+            if (value == null)
+                return;
+
             value.UnitView.Hide();
             _pool.Push(value);
         }
