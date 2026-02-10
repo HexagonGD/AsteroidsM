@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace Asteroids.Logic.Common.Services
 {
-    public class SpawnersController : IDisposable
+    public class SpawnersService : IDisposable
     {
         public event Action<Unit> OnSpawnedUnit;
 
         private readonly IEnumerable<ISpawner<CompositeUnit>> _spawners;
 
-        public SpawnersController(IEnumerable<ISpawner<CompositeUnit>> spawners)
+        public SpawnersService(IEnumerable<ISpawner<CompositeUnit>> spawners)
         {
             _spawners = spawners;
             foreach (var spawner in _spawners)

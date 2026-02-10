@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Asteroids.Logic.Analytics.Core
 {
-    public class AnalyticManager : IDisposable
+    public class AnalyticService : IDisposable
     {
         private readonly IAnalytic _analytic;
         private readonly IEnumerable<IAnalyticListener> _listeners;
 
-        public AnalyticManager(IAnalytic analytic, IEnumerable<IAnalyticListener> listeners)
+        public AnalyticService(IAnalytic analytic, IEnumerable<IAnalyticListener> listeners)
         {
             _analytic = analytic;
             _listeners = listeners;
